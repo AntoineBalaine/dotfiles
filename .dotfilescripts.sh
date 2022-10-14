@@ -13,7 +13,7 @@ if [ "$1" == "savefiles" ]; then
   function lazyconfig {
     lazygit --git-dir="$HOME"/.cfg/ --work-tree="$HOME" "$@"
   }
-  echo "alias lazyconfig='lazyconfig --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
+  echo "alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
 
   # afterwards:
   # config status
@@ -37,7 +37,7 @@ elif [ "$1" == "installfiles" ]; then
   fi;
   config checkout
   config config status.showUntrackedFiles no
-  declare -a arr=("fd" "fzf" "lazygit" "tmux" "zellij")
+  declare -a arr=("delta" "fd" "fzf" "lazygit" "tmux" "zellij" )
   function ensure_is_installed (){
     if ! [ -x "$(command -v "$1")" ]; then
       echo "Error: $1 is not installed." >&2
