@@ -1,6 +1,14 @@
 #!/bin/bash
 
 # cf. tutorial at https://www.atlassian.com/git/tutorials/dotfiles
+
+declare -a arr=("delta" "fd" "fzf" "lazygit" "tmux" "zellij" )
+function ensure_is_installed (){
+  if ! [ -x "$(command -v "$1")" ]; then
+    echo "Error: $1 is not installed." >&2
+    exit 1
+  fi
+}
 if [ "$1" == "savefiles" ]; then
   git init --bare "$HOME"/.cfg;
 
@@ -43,13 +51,10 @@ elif [ "$1" == "installfiles" ]; then
   config config status.showUntrackedFiles no
   echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
   echo "alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
-  declare -a arr=("delta" "fd" "fzf" "lazygit" "tmux" "zellij" )
-  function ensure_is_installed (){
-    if ! [ -x "$(command -v "$1")" ]; then
-      echo "Error: $1 is not installed." >&2
-      exit 1
-    fi
-  }
+  for program in "${arr[@]}"; do
+    ensure_is_installed "$program"
+  done
+elif [ "$1" == "checkifinstalled" ]; then
   for program in "${arr[@]}"; do
     ensure_is_installed "$program"
   done
