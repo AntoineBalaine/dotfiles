@@ -23,7 +23,11 @@ if [ "$1" == "savefiles" ]; then
   # config commit -m "Add bashrc"
   # config push
 elif [ "$1" == "installfiles" ]; then
-  git clone --bare https://bitbucket.org/durdn/cfg.git "$HOME"/.cfg
+
+  # to be used with the following command:
+  # curl -Lks https://raw.githubusercontent.com/AntoineBalaine/dotfiles/master/.dotfilescripts.sh | /bin/bash -s installfiles
+
+  git clone --bare git@github.com:AntoineBalaine/dotfiles.git "$HOME"/.cfg
   function config {
     /usr/bin/git --git-dir="$HOME"/.cfg/ --work-tree="$HOME" "$@"
   }
@@ -37,6 +41,8 @@ elif [ "$1" == "installfiles" ]; then
   fi;
   config checkout
   config config status.showUntrackedFiles no
+  echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
+  echo "alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
   declare -a arr=("delta" "fd" "fzf" "lazygit" "tmux" "zellij" )
   function ensure_is_installed (){
     if ! [ -x "$(command -v "$1")" ]; then
