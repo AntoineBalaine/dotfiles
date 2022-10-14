@@ -1,0 +1,68 @@
+---
+template:
+  direction: Horizontal
+  parts:
+    - direction: Vertical
+      split_size:
+        Fixed: 1
+      run:
+        plugin:
+          location: "zellij:tab-bar"
+      borderless: true
+    - direction: Vertical
+      body: true
+    - direction: Vertical
+      split_size:
+        Fixed: 2
+      run:
+        plugin:
+          location: "zellij:status-bar"
+      borderless: true
+
+tabs:
+- direction: Vertical
+  name: "Lazygit"
+  parts:
+    - direction: Vertical
+      split_size:
+        Percent: 75
+      run:
+      command: {cmd: bash, args: ["-c", "exec bash --init-file <(echo \"cd /home/antoine/Documents/Experiments/groff/poésiesMamie/; lazygit\") -i"]}
+    - direction: Horizontal
+      split_size:
+        Percent: 25
+      parts:
+      - direction: Vertical
+        split_size:
+          Percent: 50
+      - direction: Vertical
+        split_size:
+          Percent: 50
+- direction: Vertical
+  name: "Files"
+  parts:
+    - direction: Vertical
+      split_size:
+        Percent: 75
+      run:
+        command: {cmd: bash, args: ["-c", "exec bash --init-file <(echo \"cd /home/antoine/Documents/Experiments/groff/poésiesMamie/; ranger\") -i"]}
+    - direction: Horizontal
+      split_size:
+        Percent: 25
+      parts:
+      - direction: Vertical
+        split_size:
+          Percent: 50
+        run:
+          command: { cmd: "bash", args: ['-c', 'okular /home/antoine/Documents/Experiments/groff/poésiesMamie/poèmes_AMA.pdf']}
+      - direction: Vertical
+        split_size:
+          Percent: 50
+        run:
+          command: {cmd: bash, args: ["-c", "exec bash --init-file <(echo \"cd /home/antoine/Documents/Experiments/groff/poésiesMamie/; ./groff_watch_command.sh poèmes_AMA.ms poèmes_AMA.pdf\") -i"]}
+- direction: Vertical
+  name: "Lvim"
+  parts:
+  - direction: Vertical
+    run:
+      command: {cmd: bash, args: ["-c", "exec bash --init-file <(echo \"cd /home/antoine/Documents/Experiments/groff/poésiesMamie/; lvim poèmes_AMA.ms\") -i"]}
