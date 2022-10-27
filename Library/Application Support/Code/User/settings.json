@@ -1,0 +1,95 @@
+{
+  "workbench.colorTheme": "Tomorrow Night Blue",
+  "workbench.iconTheme": "material-icon-theme",
+  "editor.lineNumbers": "relative",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "eslint.alwaysShowStatus": true,
+  "eslint.format.enable": true,
+  "editor.wordWrap": "on",
+  "editor.cursorBlinking": "solid",
+  "vim.useSystemClipboard": true,
+  "vim.smartRelativeLine": true,
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<leader>", "/"],
+      "commands": ["editor.action.blockComment"]
+    }
+  ],
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["J"],
+      "after": ["<leader>","<leader>","2","F"]
+    },
+    {
+      "before": ["j"],
+      "after": ["<leader>","<leader>","2","s"]
+    },
+    { "before": ["<leader>", "/"], "commands": ["editor.action.commentLine"] },
+    {
+      "before": ["R"],
+      "after": ["v", "i", "w", "p", "y", "i", "w"]
+    },
+    {
+      "before": ["<leader>", "q"],
+      "after": ["/", "F", "C", "<CR>", "0", "W", "g", "d"]
+    },
+    {
+      "before": ["<leader>", "h"],
+      "after": [
+        "y",
+        "i",
+        "w",
+        "/",
+        "<C-v>",
+        "<CR>",
+        "/",
+        "F",
+        "C",
+        "<CR>",
+        "0",
+        "W",
+        "g",
+        "d"
+      ]
+    },
+    {
+      "before": ["<leader>", "f"],
+      "after": ["/", "up", "up", "<CR>", "n", "g", "d"]
+    }
+  ],
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "debug.javascript.breakOnConditionalError": true,
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "vim.showMarksInGutter": true,
+  "turboConsoleLog.includeFileNameAndLineNum": false,
+  "turboConsoleLog.insertEnclosingFunction": false,
+  "turboConsoleLog.logMessagePrefix": "",
+  "turboConsoleLog.delimiterInsideMessage": "",
+  "turboConsoleLog.insertEnclosingClass": false,
+  "git.autofetch": true,
+  "extensions.ignoreRecommendations": true,
+  "githubPullRequests.fileListLayout": "tree",
+  "githubPullRequests.pullBranch": "never",
+  "javascript.preferences.useAliasesForRenames": false,
+  "typescript.preferences.useAliasesForRenames": false,
+  "workbench.layoutControl.enabled": false,
+  "window.commandCenter": true,
+  "diffEditor.renderSideBySide": false,
+  "git.confirmSync": false,
+  "eslint.lintTask.enable": true,
+  "git.mergeEditor": false,
+  "window.zoomLevel": 3,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "gitlens.changes.toggleMode": "window",
+  "vim.easymotion": true
+}
