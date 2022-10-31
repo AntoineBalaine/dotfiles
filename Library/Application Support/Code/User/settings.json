@@ -11,6 +11,7 @@
   "editor.cursorBlinking": "solid",
   "vim.useSystemClipboard": true,
   "vim.smartRelativeLine": true,
+  "vim.leader": "<space>",
   "vim.visualModeKeyBindingsNonRecursive": [
     {
       "before": ["<leader>", "/"],
@@ -19,12 +20,18 @@
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
+      "before": ["<leader>", "d", "t"],
+      "commands": [
+        "workbench.debug.viewlet.action.toggleBreakpointsActivatedAction"
+      ]
+    },
+    {
       "before": ["J"],
-      "after": ["<leader>","<leader>","2","F"]
+      "after": ["<leader>", "<leader>", "2", "F"]
     },
     {
       "before": ["j"],
-      "after": ["<leader>","<leader>","2","s"]
+      "after": ["<leader>", "<leader>", "2", "s"]
     },
     { "before": ["<leader>", "/"], "commands": ["editor.action.commentLine"] },
     {
