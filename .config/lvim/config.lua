@@ -184,6 +184,7 @@ lvim.plugins = {
     require('orgmode').setup {}
   end
   },
+  { "pest-parser/pest.vim" },
   -- {"folke/tokyonight.nvim"},
   -- {
   --   "folke/trouble.nvim",
@@ -262,15 +263,14 @@ vim.opt.conceallevel = 2
 vim.opt.concealcursor = 'nc'
 
 require('orgmode').setup({
-  org_agenda_files = { '~/Documents/Experiments/orgmode/*' },
-  org_default_notes_file = '~/Documents/Experiments/orgmode/*',
+  org_agenda_files = { '~/Documents/Obsidian/Notes/*' },
+  org_default_notes_file = '~/Documents/Obsidian/Notes/*',
 })
 require 'cmp'.setup({
   sources = {
     { name = 'orgmode' }
   }
 })
-
 
 vim.api.nvim_create_autocmd("BufEnter", {
   command = "set nospell",
@@ -281,11 +281,23 @@ vim.api.nvim_create_autocmd("FileType org", {
 
 
 require("obsidian").setup({
-  dir = "/home/antoine/Documents/Obsidian/Notes",
+  dir = "~/Documents/Obsidian/Notes",
   completion = {
     nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
   }
 })
+vim.keymap.set(
+  "n",
+  "gf",
+  function()
+    if require('obsidian').util.cursor_on_markdown_link() then
+      return "<cmd>ObsidianFollowLink<CR>"
+    else
+      return "gf"
+    end
+  end,
+  { noremap = false, expr = true }
+)
 
 
 require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
@@ -310,6 +322,25 @@ vim.api.nvim_create_autocmd("BufEnter", {
     if vim.fn.expand("%:t") == "projects.md" then
       vim.api.nvim_buf_set_option(vim.fn.bufnr(), "filetype", "org")
     end
-
   end
 })
+
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = { "*.md" },
+  callback = function()
+    vim.api.nvim_command('silent! !plover -s plover_send_command suspend')
+  end
+})
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = { "*.md" },
+  callback = function()
+    vim.api.nvim_command('silent! !plover -s plover_send_command resume')
+  end
+})
+
+vim.api.nvim_create_user_command('SumColumn',
+  "<line1>,<line2>!awk -F '|' '{print; sum+=$('<args>' + 1); columns+=\"| |\"} END { print columns '<args>' sum}'",
+  { nargs = 1, range = "%" })
+
+vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
