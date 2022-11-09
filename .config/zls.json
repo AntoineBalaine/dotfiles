@@ -1,0 +1,20 @@
+{
+  "$schema": "/home/antoine/Documents/Experiments/zig/zig-linux-x86_64-0.13.0-dev.46_3648d7df1/schema.json",
+  "build_on_save_step": "build",
+  "builtin_path": "",
+  "completion_label_details": true,
+  "enable_argument_placeholders": true,
+  "enable_autofix": true,
+  "enable_build_on_save": true,
+  "enable_inlay_hints": true,
+  "enable_snippets": true,
+  "format_on_save": true,
+  "inlay_hints_show_builtin": true,
+  "inlay_hints_show_parameter_name": false,
+  "inlay_hints_show_struct_literal_field_type": false,
+  "inlay_hints_show_variable_type_hints": true,
+  "semantic_tokens": "full",
+  "warn_style": true,
+  "zig_exe_path": "/usr/bin/zig",
+  "zig_lib_path": "/home/antoine/Documents/Experiments/zig/zig-linux-x86_64-0.13.0-dev.46_3648d7df1/lib/"
+}

@@ -1,8 +1,9 @@
 [user]
-	email = abalaine@nexient.com
-	name = Anthony Balaine
+	email = abalaineaccts@gmail.com
+	name = Antoine Balaine
 [core]
     pager = delta
+	editor = lvim
 
 [interactive]
     diffFilter = delta --color-only
@@ -21,3 +22,8 @@
 
 [delta]
     line-numbers = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
