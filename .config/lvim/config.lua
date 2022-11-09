@@ -10,8 +10,8 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save.enabled = false
-lvim.colorscheme = "lunar"
+lvim.format_on_save = true
+lvim.colorscheme = "torte"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -44,10 +44,6 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 --   },
 -- }
 
--- Change theme settings
--- lvim.builtin.theme.options.dim_inactive = true
--- lvim.builtin.theme.options.style = "storm"
-
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
@@ -64,9 +60,14 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
+lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
+vim.api.nvim_command("set wrap")
+vim.api.nvim_command("set relativenumber")
+lvim.builtin.lualine.style = "default"
+vim.opt.scrolloff = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -82,16 +83,19 @@ lvim.builtin.treesitter.ensure_installed = {
   "rust",
   "java",
   "yaml",
+  "markdown",
+  "markdown_inline",
 }
 
 lvim.builtin.treesitter.ignore_install = { "haskell" }
-lvim.builtin.treesitter.highlight.enable = true
+lvim.builtin.treesitter.highlight.enabled = true
+lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdown" }
 
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
 -- lvim.lsp.installer.setup.ensure_installed = {
---     "sumneko_lua",
+--     "sumeko_lua",
 --     "jsonls",
 -- }
 -- -- change UI setting of `LspInstallInfo`
@@ -164,16 +168,30 @@ lvim.builtin.treesitter.highlight.enable = true
 
 -- Additional Plugins
 lvim.plugins = {
-  --     {"folke/tokyonight.nvim"},
-  --     {
-  --       "folke/trouble.nvim",
-  --       cmd = "TroubleToggle",
-  --     },
-  { "tpope/vim-surround" },
-  { "mcchrish/zenbones.nvim" },
-  { "inkarkat/vim-AdvancedSorters" }
-}
+  {
+    "tpope/vim-surround",
+  },
+  { "p00f/nvim-ts-rainbow" },
+  { "folke/trouble.nvim", },
+  { "francoiscabrol/ranger.vim" },
+  -- { "edluffy/hologram.nvim",},
+  { "jbyuki/venn.nvim" },
+  { "epwalsh/obsidian.nvim" },
+  {
+    "phaazon/hop.nvim",
+  },
+  { 'nvim-orgmode/orgmode', config = function()
+    require('orgmode').setup {}
+  end
+  },
+  -- {"folke/tokyonight.nvim"},
+  -- {
+  --   "folke/trouble.nvim",
+  --   cmd = "TroubleToggle",
+  -- },
 
+}
+lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
 -- vim.api.nvim_create_autocmd("BufEnter", {
 --   pattern = { "*.json", "*.jsonc" },
@@ -187,3 +205,111 @@ lvim.plugins = {
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
+lvim.builtin.which_key.mappings["r"] = {
+  "<cmd>Ranger<CR>", "Ranger"
+}
+
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Diagnostics",
+  t = { "<cmd>TroubleToggle<cr>", "trouble" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+}
+
+lvim.builtin.which_key.mappings["b"]["d"] = { "<cmd>bd<cr>", "delete" }
+
+-- require('hologram').setup({auto_display = true})
+-- function HologramTest()
+--   local Image = require('hologram.image')
+--   local source = vim.fn.expand('~/Pictures/cafes.png')
+--   local img = Image:new(source, {})
+--   local buf = vim.api.nvim_get_current_buf()
+--   img:display(1, 1, buf, {})
+-- end
+lvim.builtin.alpha.active = true
+
+vim.opt.spell = false
+vim.api.nvim_set_option('virtualedit', "block")
+-- invoke :VBox on a block selection to have lines or block drawn
+
+require("nvim-treesitter.configs").setup({
+  ensure_installed = { "markdown", "markdown_inline", ... },
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = { "markdown" },
+  },
+})
+
+-- ORGMODE
+-- Load custom tree-sitter grammar for org filetype
+require('orgmode').setup_ts_grammar()
+
+-- Tree-sitter configuration
+require 'nvim-treesitter.configs'.setup {
+  -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = { 'org' }, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
+  },
+  ensure_installed = { 'org' }, -- Or run :TSUpdate org
+}
+
+
+vim.opt.conceallevel = 2
+vim.opt.concealcursor = 'nc'
+
+require('orgmode').setup({
+  org_agenda_files = { '~/Documents/Experiments/orgmode/*' },
+  org_default_notes_file = '~/Documents/Experiments/orgmode/*',
+})
+require 'cmp'.setup({
+  sources = {
+    { name = 'orgmode' }
+  }
+})
+
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  command = "set nospell",
+})
+vim.api.nvim_create_autocmd("FileType org", {
+  command = "set nospell",
+})
+
+
+require("obsidian").setup({
+  dir = "/home/antoine/Documents/Obsidian/Notes",
+  completion = {
+    nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+  }
+})
+
+
+require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+vim.api.nvim_set_keymap("n", "j", ":HopChar2<cr>", { silent = true })
+vim.api.nvim_set_keymap("n", "<C-PageUp>", ":BufferLineCyclePrev<cr>", { silent = false })
+vim.api.nvim_set_keymap("n", "<C-PageDown>", ":BufferLineCycleNext<cr>", { silent = false })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.md" },
+  callback = function()
+    lvim.builtin.which_key.mappings["O"] = {
+      name = "myWiki",
+      ["j"] = { ":lua require 'telescope.builtin'.live_grep({ default_text = vim.fn.expand \"%:t:r\" })<cr>",
+        "search backlinks" }
+    }
+  end
+})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.md" },
+  callback = function()
+    if vim.fn.expand("%:t") == "projects.md" then
+      vim.api.nvim_buf_set_option(vim.fn.bufnr(), "filetype", "org")
+    end
+
+  end
+})
