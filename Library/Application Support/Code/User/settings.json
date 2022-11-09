@@ -1,5 +1,4 @@
 {
-  "workbench.colorTheme": "Tomorrow Night Blue",
   "workbench.iconTheme": "material-icon-theme",
   "editor.lineNumbers": "relative",
   "[typescriptreact]": {
@@ -7,7 +6,7 @@
   },
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
   "editor.cursorBlinking": "solid",
   "vim.useSystemClipboard": true,
   "vim.smartRelativeLine": true,
@@ -16,14 +15,35 @@
     {
       "before": ["<leader>", "/"],
       "commands": ["editor.action.blockComment"]
+    },
+    {
+      "before": ["<leader>", "d", "p"],
+      "commands": ["editor.debug.action.selectionToRepl"]
+    }
+  ],
+  "vim.insertModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<C-v>"],
+      "commands": ["editor.action.clipboardPasteAction"]
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
     {
+      "before": ["K"],
+      "commands": ["editor.action.showDefinitionPreviewHover"]
+    },
+    {
+      "before": ["g", "r"],
+      "commands": ["gitlens.diffWithRevisionFrom"],
+      "args": "dev"
+    },
+    {
+      "before": ["g", "p"],
+      "commands": ["svelte.typescript.findComponentReferences"]
+    },
+    {
       "before": ["<leader>", "d", "t"],
-      "commands": [
-        "workbench.debug.viewlet.action.toggleBreakpointsActivatedAction"
-      ]
+      "commands": ["workbench.debug.viewlet.action.toggleBreakpointsActivatedAction"]
     },
     {
       "before": ["J"],
@@ -44,22 +64,7 @@
     },
     {
       "before": ["<leader>", "h"],
-      "after": [
-        "y",
-        "i",
-        "w",
-        "/",
-        "<C-v>",
-        "<CR>",
-        "/",
-        "F",
-        "C",
-        "<CR>",
-        "0",
-        "W",
-        "g",
-        "d"
-      ]
+      "after": ["y", "i", "w", "/", "<C-v>", "<CR>", "/", "F", "C", "<CR>", "0", "W", "g", "d"]
     },
     {
       "before": ["<leader>", "f"],
@@ -89,14 +94,66 @@
   "githubPullRequests.pullBranch": "never",
   "javascript.preferences.useAliasesForRenames": false,
   "typescript.preferences.useAliasesForRenames": false,
-  "workbench.layoutControl.enabled": false,
-  "window.commandCenter": true,
-  "diffEditor.renderSideBySide": false,
   "git.confirmSync": false,
   "eslint.lintTask.enable": true,
   "git.mergeEditor": false,
-  "window.zoomLevel": 3,
-  "diffEditor.ignoreTrimWhitespace": false,
   "gitlens.changes.toggleMode": "window",
-  "vim.easymotion": true
+  "vim.easymotion": true,
+  "workbench.editor.pinnedTabSizing": "shrink",
+  "tabsort.sortByFullPath": false,
+  "svelte.enable-ts-plugin": true,
+  "svelte.plugin.svelte.note-new-transformation": false,
+  "totalTypeScript.hideAllTips": false,
+  "totalTypeScript.hideBasicTips": true,
+  "debug.allowBreakpointsEverywhere": true,
+  "editor.accessibilitySupport": "off",
+  "debug.onTaskErrors": "debugAnyway",
+  "thunder-client.httpLibrary": "axios",
+  "prettier.printWidth": 153,
+  "editor.inlineSuggest.enabled": true,
+  "workbench.fontAliasing": "antialiased",
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": true,
+    "scminput": false,
+    "yaml": false,
+    "typescriptreact": true
+  },
+  "workbench.startupEditor": "none",
+  "typeChallenges.workspaceFolder": "/Users/abalaine/.typeChallenges",
+  "snyk.advanced.cliPath": "/Users/abalaine/Library/Application Support/snyk-ls/snyk-macos",
+  "snyk.yesWelcomeNotification": false,
+  "snyk.trustedFolders": [
+    "/Users/abalaine/Documents/Ryerson/web-components-common-ui",
+    "/Users/abalaine/Documents/Ryerson/web-components-common-ui",
+    "/Users/abalaine/Documents/Ryerson/web-store-ui/application"
+  ],
+  "errorLens.excludeBySource": ["ts(2304)"],
+  "workbench.colorTheme": "Black",
+  "workbench.editor.wrapTabs": true,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.openRepositoryInParentFolders": "always",
+  "window.zoomLevel": 2,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.renderSideBySide": false,
+  "editor.suggest.showWords": false,
+  "reascript-docs.reaImGuiVersion": "<0.9",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "zig.path": "zig",
+  "go.formatTool": "gofmt",
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "github.copilot.preferredAccount": "266836_nttds",
+  "github.copilot.advanced": {},
+  "zig.zls.enabled": "on",
+  "[typst]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  },
+  "[typst-code]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  }
 }

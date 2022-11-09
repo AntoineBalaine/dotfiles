@@ -1,66 +1,22 @@
+local neodev = require("neodev").setup({})
 --[[
 lvim is the global options object
 
-Linters should be
-filled in as strings with either
-a global executable or a path to
-an executable
-]]
--- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "torte"
+lvim.colorscheme = "vscode"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
--- add your own keymapping
+vim.g.maplocalleader = ","
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
--- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
--- lvim.keys.normal_mode["<S-h>"] = ":BufferLineCyclePrev<CR>"
--- unmap a default keymapping
--- vim.keymap.del("n", "<C-Up>")
--- override a default keymapping
--- lvim.keys.normal_mode["<C-q>"] = ":q<cr>" -- or vim.keymap.set("n", "<C-q>", ":q<cr>" )
-
--- Change Telescope navigation to use j and k for navigation and n and p for history in both input and normal mode.
--- we use protected-mode (pcall) just in case the plugin wasn't loaded yet.
--- local _, actions = pcall(require, "telescope.actions")
--- lvim.builtin.telescope.defaults.mappings = {
---   -- for input mode
---   i = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---     ["<C-n>"] = actions.cycle_history_next,
---     ["<C-p>"] = actions.cycle_history_prev,
---   },
---   -- for normal mode
---   n = {
---     ["<C-j>"] = actions.move_selection_next,
---     ["<C-k>"] = actions.move_selection_previous,
---   },
--- }
-
--- Use which-key to add extra bindings with the leader-key prefix
--- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
--- lvim.builtin.which_key.mappings["t"] = {
---   name = "+Trouble",
---   r = { "<cmd>Trouble lsp_references<cr>", "References" },
---   f = { "<cmd>Trouble lsp_definitions<cr>", "Definitions" },
---   d = { "<cmd>Trouble document_diagnostics<cr>", "Diagnostics" },
---   q = { "<cmd>Trouble quickfix<cr>", "QuickFix" },
---   l = { "<cmd>Trouble loclist<cr>", "LocationList" },
---   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Workspace Diagnostics" },
--- }
-
--- TODO: User Config for predefined plugins
--- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
+lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
@@ -94,10 +50,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
--- lvim.lsp.installer.setup.ensure_installed = {
---     "sumeko_lua",
---     "jsonls",
--- }
+lvim.lsp.installer.setup.ensure_installed = {
+  "jsonls",
+  "tsserver"
+}
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
 -- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
@@ -113,9 +69,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
+local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
-
+require("lvim.lsp.manager").setup("tsserver", opts)
+require("lvim.lsp.manager").setup("lua_ls", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
@@ -167,10 +124,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- }
 
 -- Additional Plugins
+
 lvim.plugins = {
-  {
-    "tpope/vim-surround",
-  },
+  { "lunarvim/colorschemes" },
+  { "tpope/vim-surround" },
   { "p00f/nvim-ts-rainbow" },
   { "folke/trouble.nvim", },
   { "francoiscabrol/ranger.vim" },
@@ -180,16 +137,18 @@ lvim.plugins = {
   {
     "phaazon/hop.nvim",
   },
-  { 'nvim-orgmode/orgmode', config = function()
-    require('orgmode').setup {}
-  end
-  },
-  -- {"folke/tokyonight.nvim"},
+
+  { "pest-parser/pest.vim" },
+  { "folke/tokyonight.nvim" },
   -- {
   --   "folke/trouble.nvim",
   --   cmd = "TroubleToggle",
   -- },
-
+  { "Mofiqul/vscode.nvim" },
+  -- {"hrsh7th/cmp-nvim-lsp-signature-help"},
+  -- {"hrsh7th/cmp-nvim-lsp-document-symbol"},
+  { "decaycs/decay.nvim" },
+  { "Mofiqul/vscode.nvim" },
 }
 lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -220,21 +179,11 @@ lvim.builtin.which_key.mappings["t"] = {
 }
 
 lvim.builtin.which_key.mappings["b"]["d"] = { "<cmd>bd<cr>", "delete" }
-
--- require('hologram').setup({auto_display = true})
--- function HologramTest()
---   local Image = require('hologram.image')
---   local source = vim.fn.expand('~/Pictures/cafes.png')
---   local img = Image:new(source, {})
---   local buf = vim.api.nvim_get_current_buf()
---   img:display(1, 1, buf, {})
--- end
 lvim.builtin.alpha.active = true
-
 vim.opt.spell = false
 vim.api.nvim_set_option('virtualedit', "block")
 -- invoke :VBox on a block selection to have lines or block drawn
-
+vim.o.timeoutlen = 300
 require("nvim-treesitter.configs").setup({
   ensure_installed = { "markdown", "markdown_inline", ... },
   highlight = {
@@ -243,73 +192,154 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- ORGMODE
--- Load custom tree-sitter grammar for org filetype
-require('orgmode').setup_ts_grammar()
 
 -- Tree-sitter configuration
 require 'nvim-treesitter.configs'.setup {
   -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = { 'org' }, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
   },
-  ensure_installed = { 'org' }, -- Or run :TSUpdate org
 }
 
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 0
 vim.opt.concealcursor = 'nc'
+---setup zathura and tectonic for working with latex
+vim.g.vimtex_view_method = "zathura"
+vim.g.vimtex_compiler_method = "tectonic"
+vim.g.vimtex_compiler_cleanup = 1
+lvim.builtin.terminal.open_mapping = "<c-t>"
+lvim.builtin.dap.active = true -- change this to enable/disable debugging
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
 
-require('orgmode').setup({
-  org_agenda_files = { '~/Documents/Experiments/orgmode/*' },
-  org_default_notes_file = '~/Documents/Experiments/orgmode/*',
-})
-require 'cmp'.setup({
-  sources = {
-    { name = 'orgmode' }
-  }
-})
+if lvim.builtin.dap.active then
+    require("user.dap").config()
+    ---add a keymap for running the current file in vimKind
+    local debugCmd = ":lua require(\"osv\").run_this({lvim=true})<cr>"
+    local Debug_map = lvim.builtin.which_key.mappings.d
+    Debug_map.v = { debugCmd, "vimKind run this" }
+    lvim.builtin.which_key.mappings.d = Debug_map
+end
 
-
-vim.api.nvim_create_autocmd("BufEnter", {
-  command = "set nospell",
-})
-vim.api.nvim_create_autocmd("FileType org", {
-  command = "set nospell",
-})
-
-
-require("obsidian").setup({
-  dir = "/home/antoine/Documents/Obsidian/Notes",
-  completion = {
-    nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-  }
+vim.g.copilot_no_tab_map = true
+vim.g.copilot_assume_mapped = true
+vim.keymap.set('i', '<C-h>', 'copilot#Accept("<CR>")', {
+    expr = true,
+    replace_keycodes = false
 })
 
+---enable git blame
+vim.g.blamer_enabled = false
+vim.g.blamer_delay = 100
+vim.cmd("highlight Blamer guifg=grey")
 
-require 'hop'.setup { keys = 'etovxqpdygfblzhckisuran' }
+-- Which fuzzy finder to use with reaper-nvim: Can be either "fzf" or "skim"
+vim.g.reaper_fuzzy_command = "fzf"
+-- Target port of the Reaper session receiving these osc messages
+vim.g.reaper_target_port = 8000
+-- Target ip
+vim.g.reaper_target_ip = "127.0.0.1"
+-- Browser command used for opening links
+vim.g.reaper_browser_command = "firefox"
+
 vim.api.nvim_set_keymap("n", "j", ":HopChar2<cr>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-PageUp>", ":BufferLineCyclePrev<cr>", { silent = false })
 vim.api.nvim_set_keymap("n", "<C-PageDown>", ":BufferLineCycleNext<cr>", { silent = false })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.md" },
-  callback = function()
-    lvim.builtin.which_key.mappings["O"] = {
-      name = "myWiki",
-      ["j"] = { ":lua require 'telescope.builtin'.live_grep({ default_text = vim.fn.expand \"%:t:r\" })<cr>",
-        "search backlinks" }
-    }
-  end
-})
+-- vim.cmd [[:map <F5> :Gitsigns next_hunk<CR>]]
+-- use vim.lsp to jump to next diagnostic
+vim.cmd [[:map <F9> :lua vim.diagnostic.goto_next()<CR>]]
+vim.api.nvim_set_keymap("n", "<F8>",
+    "lua function() vim.lsp.diagnostic.goto_next({ max = vim.diagnostic.severity.ERROR, min = vim.diagnostic.severity.HINT }) end <CR>",
+    { silent = false })
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.md" },
-  callback = function()
-    if vim.fn.expand("%:t") == "projects.md" then
-      vim.api.nvim_buf_set_option(vim.fn.bufnr(), "filetype", "org")
+    pattern = { "*.md" },
+    callback = function()
+        lvim.builtin.which_key.mappings["O"] = {
+            name = "myWiki",
+            ["j"] = { ":lua require 'telescope.builtin'.live_grep({ default_text = vim.fn.expand \"%:t:r\" })<cr>",
+                "search backlinks" }
+        }
     end
-
-  end
 })
+
+---Steno commands for working with plover.
+---Enable the steno in insert mode, and disable it in normal mode
+vim.api.nvim_create_autocmd("InsertLeave", {
+    pattern = { "*.md" },
+    callback = function()
+        vim.api.nvim_command('silent! !plover -s plover_send_command suspend')
+    end
+})
+vim.api.nvim_create_autocmd("InsertEnter", {
+    pattern = { "*.md" },
+    callback = function()
+        vim.api.nvim_command('silent! !plover -s plover_send_command resume')
+    end
+})
+ ]]
+
+vim.api.nvim_create_user_command('SumColumn',
+    "<line1>,<line2>!awk -F '|' '{print; sum+=$('<args>' + 1); columns+=\"| |\"} END { print columns '<args>' sum}'",
+    { nargs = 1, range = "%" })
+
+vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
+
+vim.api.nvim_set_keymap("n", "gr",
+  ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>",
+  { silent = true })
+
+
+vim.api.nvim_set_keymap("n", "gt", ":lua require'telescope.builtin'.lsp_type_definitions{}<cr>", { silent = true })
+
+-- lvim.lsp.buffer_mappings.normal_mode["gr"] = {  "<cmd>Telescope lsp_references<cr>", "Go to Definiton" }
+lvim.lsp.buffer_mappings.normal_mode["gr"] = {
+  ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>",
+  "Go to Definiton" }
+
+
+vim.opt.list = true
+lvim.builtin.indentlines.space_char_blankline = " "
+lvim.builtin.indentlines.show_current_context = true
+lvim.builtin.indentlines.show_current_context_start = true
+
+
+-- vim.o.updatetime = 300
+-- vim.wo.signcolumn = 'yes'
+vim.o.updatetime = 30
+
+-- ---see the full default list `:lua print(vim.inspect(_G))`
+---reduce the vim scopes in lua,
+---alias display table<string, string>
+--[[
+  display: key is concatenation of all the nested methods
+          value is the doc/md string.
+  eg "vim.opt.aw": "<doc string>"
+]]
+
+---use with `Redir lua=vim.tbl_keys(package.loaded)`
+vim.api.nvim_create_user_command('Redir', function(ctx)
+  local lines = vim.split(vim.api.nvim_exec(ctx.args, true), '\n', { plain = true })
+  vim.cmd('new')
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  vim.opt_local.modified = false
+end, { nargs = '+', complete = 'command' })
+
+require('vscode').setup({
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscBack = '#000000',
+  },
+})
+T = require("nvim-treesitter.ts_utils")
+function P(data)
+  vim.print(vim.inspect(data))
+end
