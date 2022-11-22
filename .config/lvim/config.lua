@@ -284,6 +284,12 @@ require("obsidian").setup({
   dir = "~/Documents/Obsidian/Notes",
   completion = {
     nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
+  },
+  daily_notes = {
+    folder = "journal/",
+    date_format = function()
+      return string.sub(os.date("%Y%m%d"), 3)
+    end,
   }
 })
 vim.keymap.set(
