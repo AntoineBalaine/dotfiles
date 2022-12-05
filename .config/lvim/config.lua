@@ -185,6 +185,7 @@ lvim.plugins = {
   end
   },
   { "pest-parser/pest.vim" },
+  { "nvim-treesitter/playground" },
   -- {"folke/tokyonight.nvim"},
   -- {
   --   "folke/trouble.nvim",
@@ -350,3 +351,43 @@ vim.api.nvim_create_user_command('SumColumn',
   { nargs = 1, range = "%" })
 
 vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
+
+local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+parser_config.abc = {
+  install_info = {
+    url = "~/Documents/Experiments/Abcjs/tree-sitter-abc", -- local path or git repo
+    files = { "src/parser.c" },
+    -- optional entries:
+    branch = "main", -- default branch in case of git repo if different from master
+    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+    requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+  },
+  filetype = "abc", -- if filetype does not match the parser name
+}
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  }
+}
+require "nvim-treesitter.configs".setup {
+  query_linter = {
+    enable = true,
+    use_virtual_text = true,
+    lint_events = { "BufWrite", "CursorHold" },
+  },
+}
