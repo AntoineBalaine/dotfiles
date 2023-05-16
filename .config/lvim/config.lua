@@ -144,6 +144,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
         vim.api.nvim_command('silent! !plover -s plover_send_command resume')
     end
 })
+ ]]
 
 vim.api.nvim_create_user_command('SumColumn',
     "<line1>,<line2>!awk -F '|' '{print; sum+=$('<args>' + 1); columns+=\"| |\"} END { print columns '<args>' sum}'",
