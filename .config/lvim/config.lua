@@ -60,7 +60,6 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
@@ -180,10 +179,7 @@ lvim.plugins = {
   {
     "phaazon/hop.nvim",
   },
-  { 'nvim-orgmode/orgmode', config = function()
-    require('orgmode').setup {}
-  end
-  },
+
   { "pest-parser/pest.vim" },
   -- {"folke/tokyonight.nvim"},
   -- {
@@ -244,38 +240,21 @@ require("nvim-treesitter.configs").setup({
   },
 })
 
--- ORGMODE
--- Load custom tree-sitter grammar for org filetype
-require('orgmode').setup_ts_grammar()
 
 -- Tree-sitter configuration
 require 'nvim-treesitter.configs'.setup {
   -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = { 'org' }, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
   },
-  ensure_installed = { 'org' }, -- Or run :TSUpdate org
 }
 
 
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = 'nc'
 
-require('orgmode').setup({
-  org_agenda_files = { '~/Documents/Obsidian/Notes/*' },
-  org_default_notes_file = '~/Documents/Obsidian/Notes/*',
-})
-require 'cmp'.setup({
-  sources = {
-    { name = 'orgmode' }
-  }
-})
 
 vim.api.nvim_create_autocmd("BufEnter", {
-  command = "set nospell",
-})
-vim.api.nvim_create_autocmd("FileType org", {
   command = "set nospell",
 })
 
@@ -326,7 +305,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
 })
 
 
-vim.api.nvim_create_autocmd("InsertLeave", {
+--[[ vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = { "*.md" },
   callback = function()
     vim.api.nvim_command('silent! !plover -s plover_send_command suspend')
@@ -338,6 +317,7 @@ vim.api.nvim_create_autocmd("InsertEnter", {
     vim.api.nvim_command('silent! !plover -s plover_send_command resume')
   end
 })
+ ]]
 
 vim.api.nvim_create_user_command('SumColumn',
   "<line1>,<line2>!awk -F '|' '{print; sum+=$('<args>' + 1); columns+=\"| |\"} END { print columns '<args>' sum}'",
