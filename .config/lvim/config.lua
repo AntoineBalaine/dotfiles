@@ -10,13 +10,14 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
-lvim.colorscheme = "torte"
+lvim.format_on_save = false
+lvim.colorscheme = "tokyonight-moon"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = "space"
+vim.g.maplocalleader = ","
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- lvim.keys.normal_mode["<S-l>"] = ":BufferLineCycleNext<CR>"
@@ -60,7 +61,7 @@ lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
-lvim.builtin.notify.active = true
+-- lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
@@ -180,10 +181,10 @@ lvim.plugins = {
   {
     "phaazon/hop.nvim",
   },
-  { 'nvim-orgmode/orgmode', config = function()
-    require('orgmode').setup {}
-  end
-  },
+  -- { 'nvim-orgmode/orgmode', config = function()
+  -- require('orgmode').setup {}
+  -- end
+  -- },
   { "pest-parser/pest.vim" },
   { "nvim-treesitter/playground" },
   -- {"folke/tokyonight.nvim"},
@@ -191,7 +192,7 @@ lvim.plugins = {
   --   "folke/trouble.nvim",
   --   cmd = "TroubleToggle",
   -- },
-
+  {"lervag/vimtex"},
 }
 lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -247,38 +248,38 @@ require("nvim-treesitter.configs").setup({
 
 -- ORGMODE
 -- Load custom tree-sitter grammar for org filetype
-require('orgmode').setup_ts_grammar()
+-- require('orgmode').setup_ts_grammar()
 
 -- Tree-sitter configuration
 require 'nvim-treesitter.configs'.setup {
   -- If TS highlights are not enabled at all, or disabled via `disable` prop, highlighting will fallback to default Vim syntax highlighting
   highlight = {
     enable = true,
-    additional_vim_regex_highlighting = { 'org' }, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
+    -- additional_vim_regex_highlighting = { 'org' }, -- Required for spellcheck, some LaTex highlights and code block highlights that do not have ts grammar
   },
-  ensure_installed = { 'org' }, -- Or run :TSUpdate org
+  -- ensure_installed = { 'org' }, -- Or run :TSUpdate org
 }
 
 
 vim.opt.conceallevel = 2
 vim.opt.concealcursor = 'nc'
 
-require('orgmode').setup({
-  org_agenda_files = { '~/Documents/Obsidian/Notes/*' },
-  org_default_notes_file = '~/Documents/Obsidian/Notes/*',
-})
-require 'cmp'.setup({
-  sources = {
-    { name = 'orgmode' }
-  }
-})
+-- require('orgmode').setup({
+--   org_agenda_files = { '~/Documents/Obsidian/Notes/*' },
+--   org_default_notes_file = '~/Documents/Obsidian/Notes/*',
+-- })
+-- require 'cmp'.setup({
+--   sources = {
+--     { name = 'orgmode' }
+--   }
+-- })
 
 vim.api.nvim_create_autocmd("BufEnter", {
   command = "set nospell",
 })
-vim.api.nvim_create_autocmd("FileType org", {
-  command = "set nospell",
-})
+-- vim.api.nvim_create_autocmd("FileType org", {
+--   command = "set nospell",
+-- })
 
 
 require("obsidian").setup({
@@ -288,7 +289,7 @@ require("obsidian").setup({
   },
   daily_notes = {
     folder = "journal/",
-    date_format = function()
+    format_date = function()
       return string.sub(os.date("%Y%m%d"), 3)
     end,
   }
@@ -323,14 +324,14 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end
 })
 
-vim.api.nvim_create_autocmd("BufEnter", {
-  pattern = { "*.md" },
-  callback = function()
-    if vim.fn.expand("%:t") == "projects.md" then
-      vim.api.nvim_buf_set_option(vim.fn.bufnr(), "filetype", "org")
-    end
-  end
-})
+-- vim.api.nvim_create_autocmd("BufEnter", {
+--   pattern = { "*.md" },
+--   callback = function()
+--     if vim.fn.expand("%:t") == "projects.md" then
+--       vim.api.nvim_buf_set_option(vim.fn.bufnr(), "filetype", "org")
+--     end
+--   end
+-- })
 
 
 vim.api.nvim_create_autocmd("InsertLeave", {
@@ -391,3 +392,39 @@ require "nvim-treesitter.configs".setup {
     lint_events = { "BufWrite", "CursorHold" },
   },
 }
+lvim.builtin.terminal.open_mapping = "<c-t>"
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.tex" },
+  callback = function()
+    lvim.builtin.which_key.mappings["x"] = {
+      name = "Tex",
+      ["c"] = { ":VimtexCompile<cr>",
+        "Compile doc", {silent=true} }
+    }
+  end
+})
+vim.g.vimtex_view_method="zathura"
+vim.g.vimtex_compiler_method="tectonic"
+vim.g.vimtex_compiler_cleanup = 1
+--   vim.g.vimtex_compiler_latexmk = {
+-- build_dir = '',
+-- callback = 1,
+-- continuous = 1,
+-- executable = "latexmk",
+-- hooks = {},
+-- options = {
+--          '-verbose',
+--          '-file-line-error',
+--          '-synctex=1',
+--          '-interaction=nonstopmode',
+-- }
+--          -- 'executable' = 'latexmk',
+--          -- 'hooks' = [],
+--          -- 'options' = [
+--          --   '-verbose',
+--          --   '-file-line-error',
+--          --   '-synctex=1',
+--          --   '-interaction=nonstopmode',
+--          -- ],
+--         }
