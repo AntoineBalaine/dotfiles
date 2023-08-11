@@ -1,6 +1,14 @@
 [user]
-	email = abalaineaccts@gmail.com
-	name = Antoine Balaine
+	email = abalaine@nexient.com
+	name = Anthony Balaine
+
+[includeIf "gitdir:~/Documents/personnel/"]
+  path = ~/Documents/Experiments/.gitconfig
+[includeIf "gitdir:~/Documents/personnel/"]
+  path = ~/Documents/personnel/.gitconfig
+[includeIf "gitdir:~/Documents/Experiments/svelte/"]
+  path = ~/Documents/personnel/.gitconfig
+
 [core]
     pager = delta
 	editor = lvim
