@@ -90,15 +90,12 @@
   "githubPullRequests.pullBranch": "never",
   "javascript.preferences.useAliasesForRenames": false,
   "typescript.preferences.useAliasesForRenames": false,
-  "diffEditor.renderSideBySide": false,
   "git.confirmSync": false,
   "eslint.lintTask.enable": true,
   "git.mergeEditor": false,
   "diffEditor.ignoreTrimWhitespace": false,
   "gitlens.changes.toggleMode": "window",
   "vim.easymotion": true,
-  "workbench.editor.tabSizing": "shrink",
-  "workbench.editor.wrapTabs": true,
   "workbench.editor.pinnedTabSizing": "shrink",
   "tabsort.sortByFullPath": false,
   "svelte.enable-ts-plugin": true,
@@ -130,5 +127,9 @@
     "/Users/abalaine/Documents/Ryerson/web-store-ui/application"
   ],
   "errorLens.excludeBySource": ["ts(2304)"],
-  "window.zoomLevel": 2
+  "workbench.colorTheme": "Black",
+  "diffEditor.renderSideBySide": false,
+  "workbench.editor.wrapTabs": true,
+  "window.zoomLevel": 1
+  // "workbench.editor.tabSizing": "shrink",
 }

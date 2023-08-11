@@ -10,8 +10,8 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = true
-lvim.colorscheme = "torte"
+lvim.format_on_save = false
+lvim.colorscheme = "vscode"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -166,10 +166,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- }
 
 -- Additional Plugins
+
 lvim.plugins = {
-  {
-    "tpope/vim-surround",
-  },
+  { "lunarvim/colorschemes" },
+  {"tpope/vim-surround"},
   { "p00f/nvim-ts-rainbow" },
   { "folke/trouble.nvim", },
   { "francoiscabrol/ranger.vim" },
@@ -181,12 +181,15 @@ lvim.plugins = {
   },
 
   { "pest-parser/pest.vim" },
-  -- {"folke/tokyonight.nvim"},
+  {"folke/tokyonight.nvim"},
   -- {
   --   "folke/trouble.nvim",
   --   cmd = "TroubleToggle",
   -- },
-
+  {"Mofiqul/vscode.nvim"},
+-- {"hrsh7th/cmp-nvim-lsp-signature-help"},
+-- {"hrsh7th/cmp-nvim-lsp-document-symbol"},
+{"decaycs/decay.nvim"},
 }
 lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -231,7 +234,7 @@ lvim.builtin.alpha.active = true
 vim.opt.spell = false
 vim.api.nvim_set_option('virtualedit', "block")
 -- invoke :VBox on a block selection to have lines or block drawn
-
+vim.o.timeoutlen = 300
 require("nvim-treesitter.configs").setup({
   ensure_installed = { "markdown", "markdown_inline", ... },
   highlight = {
@@ -324,3 +327,16 @@ vim.api.nvim_create_user_command('SumColumn',
   { nargs = 1, range = "%" })
 
 vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
+
+vim.api.nvim_set_keymap("n", "gr", ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>", { silent = true })
+vim.api.nvim_set_keymap("n", "gt", ":lua require'telescope.builtin'.lsp_type_definitions{}<cr>", { silent = true })
+
+vim.opt.list = true
+lvim.builtin.indentlines.space_char_blankline = " "
+lvim.builtin.indentlines.show_current_context = true
+lvim.builtin.indentlines.show_current_context_start = true
+
+
+-- vim.o.updatetime = 300
+-- vim.wo.signcolumn = 'yes'
+vim.o.updatetime = 30
