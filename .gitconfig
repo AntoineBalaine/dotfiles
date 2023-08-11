@@ -2,10 +2,12 @@
 	email = abalaine@nexient.com
 	name = Anthony Balaine
 
-[includeIf "gitdir:~/Documents/personnel/"]
+[includeIf "gitdir:~/Documents/Experiments/"]
   path = ~/Documents/Experiments/.gitconfig
 [includeIf "gitdir:~/Documents/personnel/"]
   path = ~/Documents/personnel/.gitconfig
+[includeIf "gitdir:~/Documents/Ryerson/"]
+  path = ~/Documents/Ryerson/.gitconfig
 [includeIf "gitdir:~/Documents/Experiments/svelte/"]
   path = ~/Documents/personnel/.gitconfig
 
