@@ -1,0 +1,6 @@
+[user]
+  name = Anthony Balaine
+  email = anthony.balaine@ryerson.com
+[core]
+  sshCommand = ssh -i ~/.ssh/ryerson_github.pub
+
