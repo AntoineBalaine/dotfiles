@@ -1,6 +1,11 @@
 [user]
   name = Anthony Balaine
   email = anthony.balaine@ryerson.com
+
+[github]
+  user = "AnthonyBalaine"
+
 [core]
   sshCommand = ssh -i ~/.ssh/ryerson_github.pub
+
 
