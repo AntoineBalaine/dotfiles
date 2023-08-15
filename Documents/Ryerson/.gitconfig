@@ -6,6 +6,6 @@
   user = "AnthonyBalaine"
 
 [core]
-  sshCommand = ssh -i ~/.ssh/ryerson_github.pub
+  sshCommand = ssh -i ~/.ssh/ryerson_github
 
 
