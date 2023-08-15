@@ -130,6 +130,9 @@
   "workbench.colorTheme": "Black",
   "diffEditor.renderSideBySide": false,
   "workbench.editor.wrapTabs": true,
-  "window.zoomLevel": 1
+  "window.zoomLevel": 1,
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
   // "workbench.editor.tabSizing": "shrink",
 }
