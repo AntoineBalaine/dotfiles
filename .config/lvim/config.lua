@@ -1,3 +1,9 @@
+registry = require("mason-registry")
+require("neodev").setup({})
+
+-- registry.refresh(function ()
+--      registry.get_package("lua-language-server")
+-- end)
 --[[
 lvim is the global options object
 
@@ -10,8 +16,7 @@ an executable
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = false
-lvim.colorscheme = "tokyonight-moon"
+lvim.format_on_save = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -178,21 +183,24 @@ lvim.plugins = {
   -- { "edluffy/hologram.nvim",},
   { "jbyuki/venn.nvim" },
   { "epwalsh/obsidian.nvim" },
-  {
-    "phaazon/hop.nvim",
-  },
+  { "phaazon/hop.nvim", },
   -- { 'nvim-orgmode/orgmode', config = function()
   -- require('orgmode').setup {}
   -- end
   -- },
   { "pest-parser/pest.vim" },
   { "nvim-treesitter/playground" },
-  -- {"folke/tokyonight.nvim"},
+  { "folke/tokyonight.nvim" },
   -- {
   --   "folke/trouble.nvim",
   --   cmd = "TroubleToggle",
   -- },
-  {"lervag/vimtex"},
+  { "lervag/vimtex" },
+  { "davidgranstrom/osc.nvim" },
+  { "madskjeldgaard/reaper-nvim" },
+  { "ThePrimeagen/refactoring.nvim" },
+  { "bluz71/vim-moonfly-colors" },
+  { "Mofiqul/vscode.nvim" },
 }
 lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -208,9 +216,9 @@ lvim.builtin.treesitter.rainbow.enable = true
 --     require("nvim-treesitter.highlight").attach(0, "bash")
 --   end,
 -- })
-lvim.builtin.which_key.mappings["r"] = {
-  "<cmd>Ranger<CR>", "Ranger"
-}
+-- lvim.builtin.which_key.mappings["r"] = {
+--   "<cmd>Ranger<CR>", "Ranger"
+-- }
 
 lvim.builtin.which_key.mappings["t"] = {
   name = "Diagnostics",
@@ -261,7 +269,7 @@ require 'nvim-treesitter.configs'.setup {
 }
 
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 0
 vim.opt.concealcursor = 'nc'
 
 -- require('orgmode').setup({
@@ -359,17 +367,17 @@ parser_config.abc = {
     url = "~/Documents/Experiments/Abcjs/tree-sitter-abc", -- local path or git repo
     files = { "src/parser.c" },
     -- optional entries:
-    branch = "main", -- default branch in case of git repo if different from master
-    generate_requires_npm = false, -- if stand-alone parser without npm dependencies
+    branch = "main",                        -- default branch in case of git repo if different from master
+    generate_requires_npm = false,          -- if stand-alone parser without npm dependencies
     requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
   },
-  filetype = "abc", -- if filetype does not match the parser name
+  filetype = "abc",                         -- if filetype does not match the parser name
 }
 require "nvim-treesitter.configs".setup {
   playground = {
     enable = true,
     disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- Whether the query persists across vim sessions
     keybindings = {
       toggle_query_editor = 'o',
@@ -397,15 +405,17 @@ lvim.builtin.terminal.open_mapping = "<c-t>"
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.tex" },
   callback = function()
+    lvim.format_on_save = true
+    require("lvim.lsp.manager").setup("texlab")
     lvim.builtin.which_key.mappings["x"] = {
       name = "Tex",
       ["c"] = { ":VimtexCompile<cr>",
-        "Compile doc", {silent=true} }
+        "Compile doc", { silent = true } }
     }
   end
 })
-vim.g.vimtex_view_method="zathura"
-vim.g.vimtex_compiler_method="tectonic"
+vim.g.vimtex_view_method = "zathura"
+vim.g.vimtex_compiler_method = "tectonic"
 vim.g.vimtex_compiler_cleanup = 1
 --   vim.g.vimtex_compiler_latexmk = {
 -- build_dir = '',
@@ -428,3 +438,73 @@ vim.g.vimtex_compiler_cleanup = 1
 --          --   '-interaction=nonstopmode',
 --          -- ],
 --         }
+--
+
+local opts = {}
+-- require("lvim.lsp.manager").setup("tsserver", opts)
+require("lvim.lsp.manager").setup("lua_ls", opts)
+require("lvim.lsp.manager").setup("tsserver", opts)
+
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = { "*.json" },
+  callback = function()
+    lvim.format_on_save = true
+    require("lvim.lsp.manager").setup("jsonls")
+  end
+})
+
+local vscode = require('vscode')
+vscode.setup({
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscBack = '#000000',
+  },
+
+})
+
+
+lvim.colorscheme = "vscode"
+
+---Function to get the parent node of the current cursor position
+function Get_parent_node()
+  local cur_node = vim.treesitter.get_node()
+  if cur_node == nil then return end
+  local parent = cur_node:parent()
+  local r = parent.range
+  local plugin_name = vim.api.nvim_exec("lua return require('plugin_name')", true)
+end
+
+function AddPlugins_toGlobaScope()
+  for k, v in ipairs(lvim.plugins) do
+    local plug_name = v[1]:match "/(%S*)"
+    local plugin_functions = pcall(require, plug_name)
+    if (plugin_functions == nil) then return end
+    _G.plugin_scopes = {}
+    _G.plugin_scopes[plug_name] = plugin_functions
+  end
+
+  vim.cmd("new")
+  local str = vim.inspect(_G)
+  local lines = vim.split(str, '\n', { plain = true })
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+end
+
+---If you're getting lazy to type `vim.print(vim.inspect(whatever))`, then this is for you.
+---print some data to vim's console.
+---@param data any
+function P(data)
+  vim.print(vim.inspect(data))
+end
+
+---Copy current file's path to system clipboard.
+function cpwd()
+  vim.cmd([[ :let @+ = expand("%") ]])
+end
+
+local ts_utils = require("nvim-treesitter.ts_utils")
