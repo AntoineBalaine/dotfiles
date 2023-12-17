@@ -1,15 +1,5 @@
 require("mason-registry")
 require("neodev").setup({})
-require("user.theme")
-require("user.whichkey_mappings")
-require("user.helpers")
-local conf = require("user.tree-sitter_config")
-require("nvim-treesitter.configs").setup(conf)
-require("lvim.lsp.manager").setup("lua_ls", {})
-require("lvim.lsp.manager").setup("tsserver", {})
-require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-require("user.obsidian")
-
 lvim.plugins = {
   { "Mofiqul/vscode.nvim" },
   { "tpope/vim-surround", },
@@ -30,6 +20,16 @@ lvim.plugins = {
   { "nvim-treesitter/nvim-treesitter-textobjects" },
   { "github/copilot.vim" },
 }
+require("user.theme")
+require("user.whichkey_mappings")
+require("user.helpers")
+local conf = require("user.tree-sitter_config")
+require("nvim-treesitter.configs").setup(conf)
+require("lvim.lsp.manager").setup("lua_ls", {})
+require("lvim.lsp.manager").setup("tsserver", {})
+require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
+require("user.obsidian")
+
 
 -- general
 lvim.log.level = "warn"
