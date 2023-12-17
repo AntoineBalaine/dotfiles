@@ -34,4 +34,11 @@ function cpwd()
   vim.cmd([[ :let @+ = expand("%") ]])
 end
 
-Ts_utils = require("nvim-treesitter.ts_utils")
+---@param data string|table
+function pipe(data)
+  local text = vim.inspect(data)
+  local buf_num = vim.api.nvim_create_buf(true, true)
+  local split_text = vim.fn.split(text, "\n") ---@cast split_text string[]
+  vim.api.nvim_buf_set_text(buf_num, 0, 0, 0, 0, split_text)
+  vim.api.nvim_set_current_buf(buf_num)
+end

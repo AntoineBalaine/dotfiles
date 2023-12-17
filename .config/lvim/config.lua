@@ -3,46 +3,32 @@ require("neodev").setup({})
 require("user.theme")
 require("user.whichkey_mappings")
 require("user.helpers")
-
+local conf = require("user.tree-sitter_config")
+require("nvim-treesitter.configs").setup(conf)
 require("lvim.lsp.manager").setup("lua_ls", {})
 require("lvim.lsp.manager").setup("tsserver", {})
 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-require("user.tree-sitter_config")
-
---[[
---for an example of full-on crazy-complete lunarvim config:
---visit https://github.com/abzcoding/lvim
---]]
+require("user.obsidian")
 
 lvim.plugins = {
-  {
-    "tpope/vim-surround",
-  },
+  { "Mofiqul/vscode.nvim" },
+  { "tpope/vim-surround", },
   { "p00f/nvim-ts-rainbow" },
   { "folke/trouble.nvim", },
   { "francoiscabrol/ranger.vim" },
-  -- { "edluffy/hologram.nvim",},
   { "jbyuki/venn.nvim" },
   { "epwalsh/obsidian.nvim" },
   { "phaazon/hop.nvim", },
-  -- { 'nvim-orgmode/orgmode', config = function()
-  -- require('orgmode').setup {}
-  -- end
-  -- },
   { "pest-parser/pest.vim" },
   { "nvim-treesitter/playground" },
   { "folke/tokyonight.nvim" },
-  -- {
-  --   "folke/trouble.nvim",
-  --   cmd = "TroubleToggle",
-  -- },
   { "lervag/vimtex" },
   { "davidgranstrom/osc.nvim" },
   { "madskjeldgaard/reaper-nvim" },
   { "ThePrimeagen/refactoring.nvim" },
   { "bluz71/vim-moonfly-colors" },
-  { "Mofiqul/vscode.nvim" },
   { "nvim-treesitter/nvim-treesitter-textobjects" },
+  { "github/copilot.vim" },
 }
 
 -- general
@@ -80,32 +66,6 @@ vim.api.nvim_set_keymap("n", "<C-PageUp>", ":BufferLineCyclePrev<cr>", { silent 
 vim.api.nvim_set_keymap("n", "<C-PageDown>", ":BufferLineCycleNext<cr>", { silent = false })
 
 
-require("obsidian").setup({
-  dir = "~/Documents/Obsidian/Notes",
-  completion = {
-    nvim_cmp = true, -- if using nvim-cmp, otherwise set to false
-  },
-  daily_notes = {
-    folder = "journal/",
-    format_date = function()
-      return string.sub(os.date("%Y%m%d"), 3)
-    end,
-  }
-})
-vim.keymap.set(
-  "n",
-  "gf",
-  function()
-    if require('obsidian').util.cursor_on_markdown_link() then
-      return "<cmd>ObsidianFollowLink<CR>"
-    else
-      return "gf"
-    end
-  end,
-  { noremap = false, expr = true }
-)
-
-
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.md" },
   callback = function()
@@ -139,6 +99,7 @@ vim.api.nvim_create_user_command('SumColumn',
 vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
 
 
+
 vim.api.nvim_create_autocmd("BufEnter", {
   pattern = { "*.tex" },
   callback = function()
@@ -159,3 +120,15 @@ vim.api.nvim_create_autocmd("BufEnter", {
     require("lvim.lsp.manager").setup("jsonls")
   end
 })
+
+vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("<CR>")', {
+  expr = true,
+  replace_keycodes = false
+})
+vim.g.copilot_no_tab_map = true
+
+
+--[[
+--for an example of full-on crazy-complete lunarvim config:
+--visit https://github.com/abzcoding/lvim
+--]]
