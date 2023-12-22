@@ -10,6 +10,7 @@ alias commonlib="cd ~/Documents/Ryerson/web-components-common-ui/application"
 alias market="cd ~/Documents/Ryerson/web-marketing-ui/application"
 alias store="cd ~/Documents/Ryerson/web-store-ui/application"
 export PATH="~/.local/bin/:$PATH"
+export PATH="/opt/homebrew/bin/python3/:$PATH"
 
 parse_git_branch() {
    G="git"
@@ -48,3 +49,20 @@ export PNPM_HOME="~/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
 # pnpm end
 
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/a266836/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/a266836/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/a266836/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/a266836/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+eval "$(zoxide init zsh)"
