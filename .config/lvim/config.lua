@@ -1,53 +1,11 @@
-require("mason-registry")
-require("neodev").setup({})
-require("user.tree-sitter_config")
-lvim.plugins = {
-    { "Mofiqul/vscode.nvim" },
-    { "tpope/vim-surround", },
-    { "p00f/nvim-ts-rainbow" },
-    { "folke/trouble.nvim", },
-    { "francoiscabrol/ranger.vim" },
-    { "jbyuki/venn.nvim" },
-    { "epwalsh/obsidian.nvim" },
-    { "phaazon/hop.nvim", },
-    { "pest-parser/pest.vim" },
-    { "nvim-treesitter/playground" },
-    { "folke/tokyonight.nvim" },
-    { "lervag/vimtex" },
-    { "davidgranstrom/osc.nvim" },
-    { "madskjeldgaard/reaper-nvim" },
-    { "ThePrimeagen/refactoring.nvim" },
-    { "bluz71/vim-moonfly-colors" },
-    { "nvim-treesitter/nvim-treesitter-textobjects" },
-    { "github/copilot.vim" },
-    { "APZelos/blamer.nvim" },
-    { "junegunn/fzf" },
-    { "jay-babu/mason-nvim-dap.nvim" },
-    { "rcarriga/nvim-dap-ui" },
-    { "ravenxrz/DAPInstall.nvim" },
-    { "jbyuki/one-small-step-for-vimkind" }, --https://github.com/jbyuki/one-small-step-for-vimkind/blob/94b06d81209627d0098c4c5a14714e42a792bf0b/doc/osv.txt#L44-L69
-}
-require("user.theme")
-require("user.whichkey_mappings")
-require("user.helpers")
-require("user.lua_adventures")
-require("user.lsp_refactors")
-require("user.lsp_rg_calls")
-require("lvim.lsp.manager").setup("lua_ls", {})
-require("lvim.lsp.manager").setup("tsserver", {})
-require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
-require("user.obsidian")
--- require("user.tree-sitter_queries")
-require("dap-install").setup({
-    installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
-    verbosely_call_debuggers = true,
-})
--- require("mason-nvim-dap").setup()
+local neodev = require("neodev").setup({})
+--[[
+lvim is the global options object
 
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = false
+lvim.format_on_save = true
 lvim.colorscheme = "vscode"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -92,10 +50,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- generic LSP settings
 
 -- -- make sure server will always be installed even if the server is in skipped_servers list
--- lvim.lsp.installer.setup.ensure_installed = {
---     "sumeko_lua",
---     "jsonls",
--- }
+lvim.lsp.installer.setup.ensure_installed = {
+  "jsonls",
+  "tsserver"
+}
 -- -- change UI setting of `LspInstallInfo`
 -- -- see <https://github.com/williamboman/nvim-lsp-installer#default-configuration>
 -- lvim.lsp.installer.setup.ui.check_outdated_servers_on_open = false
@@ -111,9 +69,10 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 -- ---configure a server manually. !!Requires `:LvimCacheReset` to take effect!!
 -- ---see the full default list `:lua print(vim.inspect(lvim.lsp.automatic_configuration.skipped_servers))`
 -- vim.list_extend(lvim.lsp.automatic_configuration.skipped_servers, { "pyright" })
--- local opts = {} -- check the lspconfig documentation for a list of all possible options
+local opts = {} -- check the lspconfig documentation for a list of all possible options
 -- require("lvim.lsp.manager").setup("pyright", opts)
-
+require("lvim.lsp.manager").setup("tsserver", opts)
+require("lvim.lsp.manager").setup("lua_ls", opts)
 -- ---remove a server from the skipped list, e.g. eslint, or emmet_ls. !!Requires `:LvimCacheReset` to take effect!!
 -- ---`:LvimInfo` lists which server(s) are skipped for the current filetype
 -- lvim.lsp.automatic_configuration.skipped_servers = vim.tbl_filter(function(server)
@@ -168,7 +127,7 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 
 lvim.plugins = {
   { "lunarvim/colorschemes" },
-  {"tpope/vim-surround"},
+  { "tpope/vim-surround" },
   { "p00f/nvim-ts-rainbow" },
   { "folke/trouble.nvim", },
   { "francoiscabrol/ranger.vim" },
@@ -180,15 +139,16 @@ lvim.plugins = {
   },
 
   { "pest-parser/pest.vim" },
-  {"folke/tokyonight.nvim"},
+  { "folke/tokyonight.nvim" },
   -- {
   --   "folke/trouble.nvim",
   --   cmd = "TroubleToggle",
   -- },
-  {"Mofiqul/vscode.nvim"},
--- {"hrsh7th/cmp-nvim-lsp-signature-help"},
--- {"hrsh7th/cmp-nvim-lsp-document-symbol"},
-{"decaycs/decay.nvim"},
+  { "Mofiqul/vscode.nvim" },
+  -- {"hrsh7th/cmp-nvim-lsp-signature-help"},
+  -- {"hrsh7th/cmp-nvim-lsp-document-symbol"},
+  { "decaycs/decay.nvim" },
+  { "Mofiqul/vscode.nvim" },
 }
 lvim.builtin.treesitter.rainbow.enable = true
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
@@ -242,7 +202,7 @@ require 'nvim-treesitter.configs'.setup {
 }
 
 
-vim.opt.conceallevel = 2
+vim.opt.conceallevel = 0
 vim.opt.concealcursor = 'nc'
 ---setup zathura and tectonic for working with latex
 vim.g.vimtex_view_method = "zathura"
@@ -327,8 +287,18 @@ vim.api.nvim_create_user_command('SumColumn',
 
 vim.api.nvim_set_keymap("n", "gx", "<cmd>execute '!firefox ' . shellescape(expand('<cfile>'), 1)<CR>", { silent = true })
 
-vim.api.nvim_set_keymap("n", "gr", ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>", { silent = true })
+vim.api.nvim_set_keymap("n", "gr",
+  ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>",
+  { silent = true })
+
+
 vim.api.nvim_set_keymap("n", "gt", ":lua require'telescope.builtin'.lsp_type_definitions{}<cr>", { silent = true })
+
+-- lvim.lsp.buffer_mappings.normal_mode["gr"] = {  "<cmd>Telescope lsp_references<cr>", "Go to Definiton" }
+lvim.lsp.buffer_mappings.normal_mode["gr"] = {
+  ":lua require'telescope.builtin'.lsp_references({layout_strategy='vertical',layout_config={width=0.99, height=0.99}})<cr>",
+  "Go to Definiton" }
+
 
 vim.opt.list = true
 lvim.builtin.indentlines.space_char_blankline = " "
@@ -339,3 +309,37 @@ lvim.builtin.indentlines.show_current_context_start = true
 -- vim.o.updatetime = 300
 -- vim.wo.signcolumn = 'yes'
 vim.o.updatetime = 30
+
+-- ---see the full default list `:lua print(vim.inspect(_G))`
+---reduce the vim scopes in lua,
+---alias display table<string, string>
+--[[
+  display: key is concatenation of all the nested methods
+          value is the doc/md string.
+  eg "vim.opt.aw": "<doc string>"
+]]
+
+---use with `Redir lua=vim.tbl_keys(package.loaded)`
+vim.api.nvim_create_user_command('Redir', function(ctx)
+  local lines = vim.split(vim.api.nvim_exec(ctx.args, true), '\n', { plain = true })
+  vim.cmd('new')
+  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+  vim.opt_local.modified = false
+end, { nargs = '+', complete = 'command' })
+
+require('vscode').setup({
+  -- Enable italic comment
+  italic_comments = true,
+
+  -- Disable nvim-tree background color
+  disable_nvimtree_bg = true,
+
+  -- Override colors (see ./lua/vscode/colors.lua)
+  color_overrides = {
+    vscBack = '#000000',
+  },
+})
+T = require("nvim-treesitter.ts_utils")
+function P(data)
+  vim.print(vim.inspect(data))
+end
