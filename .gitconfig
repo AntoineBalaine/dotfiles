@@ -10,6 +10,12 @@
   path = ~/Documents/Ryerson/.gitconfig
 [includeIf "gitdir:~/Documents/Experiments/svelte/"]
   path = ~/Documents/personnel/.gitconfig
+[includeIf "gitdir:~/Library/Application Support/REAPER/Scripts"]
+  path = "~/Library/Application Support/REAPER/Scripts/.gitconfig"
+[includeIf "gitdir:~/Library/Application Support/REAPER/Scripts/reaper-keys/"]
+  path = "~/Library/Application Support/REAPER/Scripts/reaper-keys/.gitconfig"
+[includeIf]
+  path = "/Library/Audio/Presets/Xfer Records"
 
 [core]
     pager = delta
