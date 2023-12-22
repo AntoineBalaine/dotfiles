@@ -1,9 +1,9 @@
-local vscode = pcall(require('vscode'))
-if (not vscode) then 
-  return 
+local vscode = require('vscode')
+if (not vscode) then
+  return
 else
   vscode.setup({
-    
+
     -- Enable italic comment
     italic_comments = true,
 

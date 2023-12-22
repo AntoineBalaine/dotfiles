@@ -1,44 +1,25 @@
----Function to get the parent node of the current cursor position
-function Get_parent_node()
-  local cur_node = vim.treesitter.get_node()
-  if cur_node == nil then return end
-  local parent = cur_node:parent()
-  local r = parent.range
-  local plugin_name = vim.api.nvim_exec("lua return require('plugin_name')", true)
-end
-
-function AddPlugins_toGlobaScope()
-  for k, v in ipairs(lvim.plugins) do
-    local plug_name = v[1]:match "/(%S*)"
-    local plugin_functions = pcall(require, plug_name)
-    if (plugin_functions == nil) then return end
-    _G.plugin_scopes = {}
-    _G.plugin_scopes[plug_name] = plugin_functions
-  end
-
-  vim.cmd("new")
-  local str = vim.inspect(_G)
-  local lines = vim.split(str, '\n', { plain = true })
-  vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
-end
-
+x_bla = {}
 ---If you're getting lazy to type `vim.print(vim.inspect(whatever))`, then this is for you.
 ---print some data to vim's console.
 ---@param data any
 function P(data)
-  vim.print(vim.inspect(data))
+    vim.print(vim.inspect(data))
 end
 
 ---Copy current file's path to system clipboard.
 function cpwd()
-  vim.cmd([[ :let @+ = expand("%") ]])
+    vim.cmd [[ let @+ = expand("%") ]]
 end
 
 ---@param data string|table
 function pipe(data)
-  local text = vim.inspect(data)
-  local buf_num = vim.api.nvim_create_buf(true, true)
-  local split_text = vim.fn.split(text, "\n") ---@cast split_text string[]
-  vim.api.nvim_buf_set_text(buf_num, 0, 0, 0, 0, split_text)
-  vim.api.nvim_set_current_buf(buf_num)
+    local text = vim.inspect(data)
+    local buf_num = vim.api.nvim_create_buf(true, true)
+    local split_text = vim.fn.split(text, "\n") ---@cast split_text string[]
+    vim.api.nvim_buf_set_text(buf_num, 0, 0, 0, 0, split_text)
+    vim.api.nvim_set_current_buf(buf_num)
+end
+
+function LSP_format()
+    vim.lsp.buf.format()
 end

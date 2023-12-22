@@ -3,6 +3,7 @@
 	name = Antoine Balaine
 [core]
     pager = delta
+	editor = lvim
 
 [interactive]
     diffFilter = delta --color-only
