@@ -1,6 +1,5 @@
 require("mason-registry")
 require("neodev").setup({})
--- require("nvim-dap-ui")
 lvim.plugins = {
     { "Mofiqul/vscode.nvim" },
     { "tpope/vim-surround", },
@@ -22,18 +21,28 @@ lvim.plugins = {
     { "github/copilot.vim" },
     { "APZelos/blamer.nvim" },
     { "junegunn/fzf" },
-    -- { "jay-babu/mason-nvim-dap.nvim" },
+    { "jay-babu/mason-nvim-dap.nvim" },
+    { "rcarriga/nvim-dap-ui" },
+    { "ravenxrz/DAPInstall.nvim" },
+    { "jbyuki/one-small-step-for-vimkind" }, --https://github.com/jbyuki/one-small-step-for-vimkind/blob/94b06d81209627d0098c4c5a14714e42a792bf0b/doc/osv.txt#L44-L69
 }
 require("user.theme")
 require("user.whichkey_mappings")
 require("user.helpers")
 require("user.lua_adventures")
+require("user.lsp_refactors")
+require("user.lsp_rg_calls")
 local conf = require("user.tree-sitter_config")
 require("nvim-treesitter.configs").setup(conf)
 require("lvim.lsp.manager").setup("lua_ls", {})
 require("lvim.lsp.manager").setup("tsserver", {})
 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
 require("user.obsidian")
+
+require("dap-install").setup({
+    installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
+    verbosely_call_debuggers = true,
+})
 -- require("mason-nvim-dap").setup()
 
 
@@ -66,12 +75,19 @@ vim.g.vimtex_view_method = "zathura"
 vim.g.vimtex_compiler_method = "tectonic"
 vim.g.vimtex_compiler_cleanup = 1
 lvim.builtin.terminal.open_mapping = "<c-t>"
-lvim.builtin.dap.active = false -- change this to enable/disable debugging
+lvim.builtin.dap.active = true -- change this to enable/disable debugging
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
+
 if lvim.builtin.dap.active then
     require("user.dap").config()
+    ---add a keymap for running the current file in vimKind
+    local debugCmd = ":lua require(\"osv\").run_this({lvim=true})<cr>"
+    local Debug_map = lvim.builtin.which_key.mappings.d
+    Debug_map.v = { debugCmd, "vimKind run this" }
+    lvim.builtin.which_key.mappings.d = Debug_map
 end
+
 vim.g.copilot_no_tab_map = true
 vim.g.copilot_assume_mapped = true
 vim.keymap.set('i', '<C-h>', 'copilot#Accept("<CR>")', {
@@ -97,7 +113,7 @@ vim.api.nvim_set_keymap("n", "j", ":HopChar2<cr>", { silent = true })
 vim.api.nvim_set_keymap("n", "<C-PageUp>", ":BufferLineCyclePrev<cr>", { silent = false })
 vim.api.nvim_set_keymap("n", "<C-PageDown>", ":BufferLineCycleNext<cr>", { silent = false })
 
-vim.cmd [[:map <F5> :Gitsigns next_hunk<CR>]]
+-- vim.cmd [[:map <F5> :Gitsigns next_hunk<CR>]]
 -- use vim.lsp to jump to next diagnostic
 vim.cmd [[:map <F9> :lua vim.diagnostic.goto_next()<CR>]]
 vim.api.nvim_set_keymap("n", "<F8>",
@@ -178,5 +194,3 @@ vim.api.nvim_create_autocmd("BufEnter", {
         vim.g.reaper_fuzzy_command = "fzf"
     end
 })
-
-

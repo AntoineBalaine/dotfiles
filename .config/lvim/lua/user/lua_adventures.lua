@@ -1,62 +1,6 @@
+local lsp_helpers = require("user.lsp_helpers")
 function CallReaperAction()
     vim.cmd("silent exec '!reaper -nonewinst /home/antoine/.config/lvim/lua/user/reaperscript.lua &'")
-end
-
----@param diag table
----@param buf number
----@param clients table
-local function renameVar(diag, buf, clients)
-    local lines = vim.api.nvim_buf_get_lines(buf, diag.lnum, diag.lnum + 1, false)
-    local var_name = lines[1]:sub(diag.col + 1, diag.end_col)
-    local new_name = var_name:gsub("^%l", string.upper)
-    local request_obj = {
-        textDocument = { uri = vim.uri_from_bufnr(buf or 0) },
-        position = { line = diag.lnum, character = diag.col },
-        newName = new_name
-    }
-
-    clients[1].request("textDocument/rename", request_obj, vim.lsp.handlers['textDocument/rename'], buf)
-end
-
----@param ref_code string
----@return Diagnostic[]|nil, number|nil, table|nil
-local function getDiagnostics(ref_code)
-    local buf = vim.api.nvim_get_current_buf()
-    local clients = vim.lsp.get_active_clients({ bufnr = buf })
-    -- Clients must at least support rename, prepareRename is optional
-    clients = vim.tbl_filter(function(client)
-        return client.supports_method('textDocument/rename')
-    end, clients)
-
-    if not buf then return end
-    if not clients then return end
-    if #clients == 0 then
-        vim.notify('[LSP] no client for this buffer')
-        return
-    end
-    ---filter diagnostics by code
-    local diags = vim.tbl_filter(function(diag)
-        return diag.code == ref_code
-    end, vim.diagnostic.get())
-
-    return diags, buf, clients
-end
-
----take the first diagnosticc in the file,
----and rename the variable that is being pointed out
----by upper-casing its first letter.
-function RenameAllLowerCaseVars()
-    local ref_code = "lowercase-global"
-    local diags, buf, clients = getDiagnostics(ref_code)
-    if not diags or not buf or not clients then return end
-    for _, k in ipairs(diags) do
-        renameVar(k, buf, clients)
-    end
-end
-
-function F_update()
-    vim.cmd("source %")
-    RenameAllLowerCaseVars()
 end
 
 function List_luals_err_codes()
@@ -75,36 +19,10 @@ function List_luals_err_codes()
     pipe(codes_arr)
 end
 
----@enum luals_err_codes
-local luals_err_codes = {
-    "ambiguity-1",
-    "assign-type-mismatch",
-    "duplicate-index",
-    "empty-block",
-    "lowercase-global",
-    "missing-parameter",
-    "missing-return",
-    "missing-return-value",
-    "need-check-nil",
-    "param-type-mismatch",
-    "redefined-local",
-    "redundant-parameter",
-    "redundant-value",
-    "unbalanced-assignments",
-    "undefined-doc-name",
-    "undefined-doc-param",
-    "undefined-field",
-    "undefined-global",
-    "unsupport-symbol",
-    "unused-function",
-    "unused-local"
-}
-
-
 ---start by making sure that your luarc.json ignores all other errors
 function Find_all_undefined_globals()
-    local ref_code = "undefined-global"
-    local diags, buf, clients = getDiagnostics(ref_code)
+    local ref_code = lsp_helpers.luals_err_codes.undefinedGlobal
+    local diags, buf, clients = lsp_helpers.getDiagnostics(ref_code)
     if not diags or not buf or not clients then return end
     --- reduce diags to a table of unique names
     local names = {}
@@ -140,7 +58,7 @@ end
 
 function Find_all_unused_V()
     local ref_code = "unused-local"
-    local diags, buf, clients = getDiagnostics(ref_code)
+    local diags, buf, clients = lsp_helpers.getDiagnostics(ref_code)
     if not diags or not buf or not clients then return end
     --- reduce diags to a table of unique names
     for _, diag in ipairs(diags) do
@@ -156,37 +74,18 @@ function Find_all_unused_V()
     end
 end
 
----@param input_table Diagnostic[]
-local function remove_duplicates(input_table)
-    local seen = {}
-    local result = {}
-
-    for _, value in ipairs(input_table) do
-        if not seen[value.lnum .. ""] then
-            table.insert(result, value)
-            seen[value.lnum .. ""] = true
-        end
-    end
-
-    return result
-end
-
 function UndefDiags()
     local undef_code = "undefined-global"
-    local undef_diags, _, _ = getDiagnostics(undef_code)
+    local undef_diags, _, _ = lsp_helpers.getDiagnostics(undef_code)
     P(#undef_diags)
 end
 
 function RemoveLineAtUnusedDiag()
     UndefDiags()
-    local ref_code = "unused-local"
-    local diags, buf, clients = getDiagnostics(ref_code)
+    local ref_code = lsp_helpers.luals_err_codes.unusedLocal
+    local diags, buf, clients = lsp_helpers.getDiagnostics(ref_code)
     if not diags or not buf or not clients then return end
     local text = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
-    table.sort(diags, function(a, b)
-        return a.lnum < b.lnum
-    end)
-    diags = remove_duplicates(diags)
 
     for i = #diags, 1, -1 do
         local diag = diags[i]

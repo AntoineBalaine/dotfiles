@@ -8,7 +8,8 @@ end
 
 ---Copy current file's path to system clipboard.
 function cpwd()
-    vim.cmd [[ let @+ = expand("%") ]]
+    -- vim.fn.expand('%:p')
+    vim.cmd [[ let @+ = expand("%:p") ]]
 end
 
 ---@param data string|table
