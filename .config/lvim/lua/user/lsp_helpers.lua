@@ -43,11 +43,11 @@ local function remove_duplicates(input_table)
     return result
 end
 
-
----get diagnostics for the current buffer
----@param ref_code luals_err_codes
----@return Diagnostic[]|nil, number|nil, LspClient[]|nil
-lsp_helpers.getDiagnostics = function(ref_code)
+---Get current buffer's number
+---and get LSPclients for this buffer
+---that have rename capability
+---@return number|nil buf, LspClient[]|nil clients
+function lsp_helpers.getBuf_getClients()
     local buf = vim.api.nvim_get_current_buf()
     ---@type LspClient[]
     local clients = vim.lsp.get_active_clients({ bufnr = buf })
@@ -61,6 +61,15 @@ lsp_helpers.getDiagnostics = function(ref_code)
         vim.notify('[LSP] no client for this buffer')
         return
     end
+    return buf, clients
+end
+
+---get diagnostics for the current buffer
+---@param ref_code luals_err_codes
+---@return Diagnostic[]|nil, number|nil, LspClient[]|nil
+lsp_helpers.getDiagnostics = function(ref_code)
+    local buf, clients = lsp_helpers.getBuf_getClients()
+
     ---filter diagnostics by code
     local diags = vim.tbl_filter(function(diag)
         return (diag.code == ref_code and diag.bufnr == buf)

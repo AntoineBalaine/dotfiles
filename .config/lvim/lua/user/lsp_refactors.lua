@@ -92,3 +92,33 @@ local L_map = lvim.builtin.which_key.mappings.l
 -- L_map.j = { "<cmd>lua GoToNextUnusedLocal()<cr>", "next unused local" }
 -- L_map.k = { "<cmd>lua GoToPrevUnusedLocal()<cr>", "prev unused local" }
 lvim.builtin.which_key.mappings.l = L_map
+
+function GetRedefinedLocals()
+    local refcode = lsp_helpers.luals_err_codes.redefined
+    local diags, buf, clients = lsp_helpers.getDiagnostics(refcode)
+end
+
+function RemoveEmptyBlock()
+    local refcode = lsp_helpers.luals_err_codes.emptyBlock
+    local diags, buf, clients = lsp_helpers.getDiagnostics(refcode)
+    if not diags or not buf then return end
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    -- remove text at diagnostic range
+    --reverse iterate
+    for i = #diags, 1, -1 do
+        -- remove text at diagnostic range
+        local diag = diags[i]
+        local start_line = diag.lnum
+        local end_line = diag.end_lnum
+        -- local start_col = diag.col - 1
+        -- local end_col = diag.end_col - 1
+        -- local line = lines[start_line]
+        -- local new_line = line:sub(1, start_col) .. line:sub(end_col + 1)
+        -- lines[start_line] = new_line
+        for j = end_line, start_line, -1 do
+            table.remove(lines, j + 1)
+        end
+    end
+    -- set buffer lines
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+end

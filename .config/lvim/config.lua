@@ -1,5 +1,6 @@
 require("mason-registry")
 require("neodev").setup({})
+require("user.tree-sitter_config")
 lvim.plugins = {
     { "Mofiqul/vscode.nvim" },
     { "tpope/vim-surround", },
@@ -32,13 +33,11 @@ require("user.helpers")
 require("user.lua_adventures")
 require("user.lsp_refactors")
 require("user.lsp_rg_calls")
-local conf = require("user.tree-sitter_config")
-require("nvim-treesitter.configs").setup(conf)
 require("lvim.lsp.manager").setup("lua_ls", {})
 require("lvim.lsp.manager").setup("tsserver", {})
 require('hop').setup { keys = 'etovxqpdygfblzhckisuran' }
 require("user.obsidian")
-
+-- require("user.tree-sitter_queries")
 require("dap-install").setup({
     installation_path = vim.fn.stdpath("data") .. "/dapinstall/",
     verbosely_call_debuggers = true,
@@ -96,7 +95,7 @@ vim.keymap.set('i', '<C-h>', 'copilot#Accept("<CR>")', {
 })
 
 ---enable git blame
-vim.g.blamer_enabled = true
+vim.g.blamer_enabled = false
 vim.g.blamer_delay = 100
 vim.cmd("highlight Blamer guifg=grey")
 

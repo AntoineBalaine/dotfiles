@@ -4,19 +4,18 @@ lvim.builtin.treesitter.highlight.additional_vim_regex_highlighting = { "markdow
 lvim.builtin.treesitter.rainbow.enable = true
 
 
-local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
-parser_config.abc = {
-    install_info = {
-        url = "~/Documents/Experiments/Abcjs/tree-sitter-abc", -- local path or git repo
-        files = { "src/parser.c" },
-        -- optional entries:
-        branch = "main",                    -- default branch in case of git repo if different from master
-        generate_requires_npm = false,      -- if stand-alone parser without npm dependencies
-        requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
-    },
-    filetype = "abc",                       -- if filetype does not match the parser name
-}
-vim.api.nvim_set_keymap("n", "h", "", { silent = true })
+-- local parser_config = require "nvim-treesitter.parsers".get_parser_configs()
+-- parser_config.abc = {
+--     install_info = {
+--         url = "~/Documents/Experiments/Abcjs/tree-sitter-abc", -- local path or git repo
+--         files = { "src/parser.c" },
+--         -- optional entries:
+--         branch = "main",                        -- default branch in case of git repo if different from master
+--         generate_requires_npm = false,          -- if stand-alone parser without npm dependencies
+--         requires_generate_from_grammar = false, -- if folder contains pre-generated src/parser.c
+--     },
+--     filetype = "abc",                           -- if filetype does not match the parser name
+-- }
 
 
 ---@type TSConfig
@@ -46,22 +45,66 @@ local conf = {
     auto_install = true,
     ignore_install = {},
     textobjects = {
+        lsp_interop = {
+            enable = true,
+            border = 'none',
+            floating_preview_opts = {},
+            peek_definition_code = {
+                -- ["<leader>df"] = "@function.outer",
+                -- ["<leader>dF"] = "@class.outer",
+            },
+        },
         select = {
             enable = true,
+            -- Automatically jump forward to textobj, similar to targets.vim
+            lookahead = true,
             keymaps = {
-                ["xf"] = "@function.outer",
-                ["af"] = "@function.inner",
-                ["ac"] = "@class.outer",
-                ["ic"] = "@class.inner",
+                ["AF"] = "@function.outer",
+                ["Af"] = "@function.inner",
                 ["ib"] = "@block.inner",
                 ["ab"] = "@block.outer",
             },
+        },
+        move = {
+            enable = true,
+            set_jumps = true, -- whether to set jumps in the jumplist
+            goto_next_start = {
+                ["]f"] = "@function.outer",
+                ["]i"] = "@conditional.outer",
+                ["]b"] = "@block.outer",
+            },
+            goto_next_end = {
+                ["]F"] = "@function.outer",
+                ["]I"] = "@conditional.outer",
+                ["]B"] = "@block.outer",
+            },
+            goto_previous_start = {
+                ["[f"] = "@function.outer",
+                ["[i"] = "@conditional.outer",
+                ["[b"] = "@block.outer",
+            },
+            goto_previous_end = {
+                ["[F"] = "@function.outer",
+                ["[I"] = "@conditional.outer",
+                ["[B"] = "@block.outer",
+            },
+            -- Below will go to either the start or the end, whichever is closer.
+            -- Use if you want more granular movements
+            -- Make it even more gradual by adding multiple queries and regex.
+            -- goto_next = {
+            -- 	["]i"] = "@conditional.outer",
+            -- 	["]f"] = "@function.outer",
+            -- },
+            -- goto_previous = {
+            -- 	["[i"] = "@conditional.outer",
+            -- 	["[f"] = "@function.outer",
+            -- },
         },
     },
     playground = {
         enable = true,
         disable = {},
-        updatetime = 25,     -- Debounced time for highlighting nodes in the playground from source code
+        updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
         persist_queries = false, -- Whether the query persists across vim sessions
         keybindings = {
             toggle_query_editor = 'o',
@@ -83,5 +126,6 @@ local conf = {
     },
 }
 
-require "nvim-treesitter.configs".setup(conf)
-return conf
+
+require("nvim-treesitter.configs").setup(conf)
+-- return conf
