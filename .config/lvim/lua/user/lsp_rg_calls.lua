@@ -92,3 +92,38 @@ function findAllGlobalsInFile(line_range)
     if not bufnr or not clients then return end
     AddPrefixToTSNodeVariable(bufnr, clients[1], "FxdCtx.", nodes, 1)
 end
+
+---@param idx number
+---@param buf number
+---@param client LspClient
+---@param line_list {line: string, index: number}[]
+local function renameFunctions(buf, client, idx, line_list)
+    local line = line_list[idx]
+    ---pull var name from line and upper case it
+    local name = line.line:match("^function [a-zA-Z_]*")
+    local new_name = "GF." .. string.gsub(name, "^function ", "")
+    local params = {
+        textDocument = { uri = vim.uri_from_bufnr(buf or 0) },
+        position = { line = line.index, character = #"function " },
+        newName = new_name
+    }
+
+    client.request('textDocument/rename', params, function(...)
+        local handler = client.handlers['textDocument/rename']
+            or vim.lsp.handlers['textDocument/rename']
+        handler(...)
+        renameFunctions(buf, client, idx + 1, line_list)
+    end, buf)
+end
+
+function RenameFunctionsAt0Indent()
+    local buf, clients = lsp_helpers.getBuf_getClients()
+    if not buf or not clients then
+        vim.notify('[LSP] no client for this buffer')
+        return
+    else
+        assert(#clients ~= 0, 'No clients')
+    end
+    local line_list = lsp_helpers.get_lines_matching_pattern(buf, '^function ')
+    renameFunctions(buf, clients[1], 1, line_list)
+end

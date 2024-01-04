@@ -106,4 +106,23 @@ function lsp_helpers.renameVarToUpperCase(diag, buf, clients, new_name)
     -- clients[1].request("textDocument/rename", request_obj, vim.lsp.handlers['textDocument/rename'], buf)
 end
 
+---@param bufnr number
+---@param pattern string
+---@return {line: string, index: number}[]
+function lsp_helpers.get_lines_matching_pattern(bufnr, pattern)
+    local lines = vim.api.nvim_buf_get_lines(bufnr, 0, -1, false)
+    ---@type {line: string, index: number}[]
+    local matching_lines = {}
+
+    for lineNum, line in ipairs(lines) do
+        if string.match(line, pattern) then
+            table.insert(matching_lines, { line = line, index = lineNum - 1 })
+        else
+            table.insert(matching_lines, nil)
+        end
+    end
+
+    return matching_lines
+end
+
 return lsp_helpers
