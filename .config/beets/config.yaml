@@ -1,0 +1,30 @@
+# docs to be found at https://beets.readthedocs.io/en/stable/guides/main.html
+# install beet: `pipx install beets`
+# add external plugins to beets: `pipx inject <venv> <package>`
+directory: ~/Music/Albums/
+library: ~/.config/beets/library.db
+import:
+  move: yes
+paths:
+    default: $albumartist/$album%aunique{}/$track $title
+    singleton: Non-Album/$artist/$title
+    comp: Compilations/$album%aunique{}/$track $title
+plugins: 
+  - ftintitle 
+  - keyfinder 
+  - bpmanalyser
+ftintitle:
+  auto: yes
+  drop: no
+  format: feat. {0}
+keyfinder:
+  auto: yes
+  bin: keyfinder-cli
+  overwrite: no
+bpmanalyser:
+  auto: no
+  dry-run: no
+  write: yes
+  threads: 2
+  force: no
+  quiet: no
