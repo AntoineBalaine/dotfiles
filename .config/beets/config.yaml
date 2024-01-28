@@ -5,14 +5,15 @@ directory: ~/Music/Albums/
 library: ~/.config/beets/library.db
 import:
   move: yes
-paths:
-    default: $albumartist/$album%aunique{}/$track $title
-    singleton: Non-Album/$artist/$title
-    comp: Compilations/$album%aunique{}/$track $title
 plugins: 
   - ftintitle 
   - keyfinder 
-  - bpmanalyser
+  - xtractor
+  - yearfixer
+  # - lastgenre # TO DO using https://github.com/florib779/beets-config/blob/master/config.yaml
+  - follow
+  - lyrics
+  # - bpmanalyser
 ftintitle:
   auto: yes
   drop: no
@@ -21,10 +22,56 @@ keyfinder:
   auto: yes
   bin: keyfinder-cli
   overwrite: no
-bpmanalyser:
-  auto: no
-  dry-run: no
-  write: yes
-  threads: 2
+# bpmanalyser:
+#   auto: no
+#   dry-run: no
+#   write: yes
+#   threads: 2
+#   force: no
+#   quiet: no
+xtractor: # $ beet xtractor [options] [QUERY...]
+    auto: no
+    dry-run: no
+    write: yes # write bpm analysis to metadata, storethe rest in DB
+    threads: 1
+    force: no
+    quiet: no
+    keep_output: yes
+    keep_profiles: no
+    output_path: /home/antoine/Documents/Experiments/beets/xtractor_data
+    essentia_extractor: /usr/bin/essentia_streaming_extractor_music # https://github.com/doctorfree/mpplus-essentia/releases
+    extractor_profile:
+        highlevel:
+            svm_models:
+                - /usr/share/mpplus-essentia/svm_models/danceability.history
+                - /usr/share/mpplus-essentia/svm_models/gender.history
+                - /usr/share/mpplus-essentia/svm_models/genre_rosamerica.history
+                - /usr/share/mpplus-essentia/svm_models/mood_acoustic.history
+                - /usr/share/mpplus-essentia/svm_models/mood_aggressive.history
+                - /usr/share/mpplus-essentia/svm_models/mood_electronic.history
+                - /usr/share/mpplus-essentia/svm_models/mood_happy.history
+                - /usr/share/mpplus-essentia/svm_models/mood_sad.history
+                - /usr/share/mpplus-essentia/svm_models/mood_party.history
+                - /usr/share/mpplus-essentia/svm_models/mood_relaxed.history
+                - /usr/share/mpplus-essentia/svm_models/voice_instrumental.history
+                - /usr/share/mpplus-essentia/svm_models/moods_mirex.history
+yearfixer:
   force: no
-  quiet: no
+lyrics:
+  auto: yes                  # Fetch lyrics automatically during import. Default: yes.
+  fallback: ''               # By default, the file will be left unchanged when no lyrics are found.
+                             # Use the empty string '' to reset the lyrics in such a case.
+                             # Default: None.
+  force: no                  # By default, beets won’t fetch lyrics if the files already have ones.
+                             # To instead always fetch lyrics, set the force option to yes.
+                             # Default: no.
+  #google_API_key: None      # Your Google API key (to enable the Google Custom Search backend).
+                             # Default: None.
+  #google_engine_ID:         # The custom search engine to use.
+                             # Default: The beets custom search engine, which gathers an updated list of sources known to be scrapeable.
+  sources:                   # List of sources to search for lyrics.
+    - genius                 # genius, google, and tektsowo sources will only be enabled if BeautifulSoup is installed.
+    - lyricwiki
+    - tekstowo
+    - musixmatch             # Possibly just 30% of a whole song text
+                             
