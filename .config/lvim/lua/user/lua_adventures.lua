@@ -3,6 +3,10 @@ function CallReaperAction()
     vim.cmd("silent exec '!reaper -nonewinst /home/antoine/.config/lvim/lua/user/reaperscript.lua &'")
 end
 
+function ReaperTweak()
+    vim.cmd("silent exec '!reaper -nonewinst /home/antoine/.config/lvim/lua/user/callReaperTweak.lua &'")
+end
+
 function List_luals_err_codes()
     ---@type Diagnostic[]
     local diags = vim.diagnostic.get()

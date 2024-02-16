@@ -18,7 +18,8 @@ end
 ---@param diags Diagnostic[]
 ---@param buf number
 ---@param client LspClient
-local function tryToRename(buf, client, idx, diags)
+---@param new_name_transform fun(name: string): string
+local function tryToRename(buf, client, idx, diags, new_name_transform)
     -- P(client.handlers['textDocument/rename'])
 
     local diag = diags[idx]
@@ -29,11 +30,7 @@ local function tryToRename(buf, client, idx, diags)
     local lines = vim.api.nvim_buf_get_lines(diag.bufnr, diag.lnum, diag.lnum + 1, false)
     ---pull var name from line and upper case it
     local name = lines[1]:sub(diag.col + 1, diag.end_col)
-    local new_name = name:gsub("^%l", string.upper)
-    ---Does the new name already exist in the project?
-    if ts_query.has_global(new_name) then
-        new_name = new_name .. '_CONFLICT'
-    end
+    local new_name = new_name_transform(name)
     local params = {
         textDocument = { uri = vim.uri_from_bufnr(diag.bufnr or 0) },
         position = { line = diag.lnum, character = diag.col },
@@ -44,7 +41,7 @@ local function tryToRename(buf, client, idx, diags)
         local handler = client.handlers['textDocument/rename']
             or vim.lsp.handlers['textDocument/rename']
         handler(...)
-        tryToRename(buf, client, idx + 1, diags)
+        tryToRename(buf, client, idx + 1, diags, new_name_transform)
     end, buf)
 end
 
@@ -61,7 +58,10 @@ function RenameAllLowerCaseVars()
         assert(#diags ~= 0, 'No diagnostics in buffer')
         assert(#clients ~= 0, 'No clients')
     end
-    tryToRename(buf, clients[1], 1, diags)
+    local function new_name_transform(name)
+        return name:gsub("^%l", string.upper)
+    end
+    tryToRename(buf, clients[1], 1, diags, new_name_transform)
 end
 
 ---@param bufnr number
@@ -126,4 +126,40 @@ function RenameFunctionsAt0Indent()
     end
     local line_list = lsp_helpers.get_lines_matching_pattern(buf, '^function ')
     renameFunctions(buf, clients[1], 1, line_list)
+end
+
+---take the undefined globals in the file,
+---and rename each variable that is being pointed out
+---by prefixing it with a module name.
+---@param prefix string
+function PrefixUndefinedGlobals(prefix)
+    local ref_code = lsp_helpers.luals_err_codes.undefinedGlobal
+    local diags, buf, clients = lsp_helpers.getDiagnostics(ref_code)
+    if not buf or not clients or not diags then
+        vim.notify('[LSP] no client for this buffer')
+        return
+    else
+        assert(#diags ~= 0, 'No diagnostics in buffer')
+        assert(#clients ~= 0, 'No clients')
+    end
+    ---@param name string
+    ---@return string
+    local function new_name_transform(name)
+        return prefix .. name
+    end
+
+    -- filter all unique variable names from the diagnostics
+    local filtered_diags = {}
+    local seen = {}
+    for idx, diag in pairs(diags) do
+        local lines = vim.api.nvim_buf_get_lines(diag.bufnr, diag.lnum, diag.lnum + 1, false)
+        ---pull var name from line and upper case it
+        local name = lines[1]:sub(diag.col + 1, diag.end_col)
+        if not seen[name] then
+            seen[name] = true
+            table.insert(filtered_diags, diag)
+        end
+    end
+
+    tryToRename(buf, clients[1], 1, filtered_diags, new_name_transform)
 end

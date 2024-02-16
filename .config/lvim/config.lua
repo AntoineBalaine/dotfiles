@@ -47,7 +47,7 @@ require("dap-install").setup({
 
 -- general
 lvim.log.level = "warn"
-lvim.format_on_save = false
+lvim.format_on_save = true
 lvim.leader = "space"
 vim.g.maplocalleader = ","
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
@@ -173,6 +173,13 @@ vim.api.nvim_create_autocmd("BufEnter", {
         require("lvim.lsp.manager").setup("jsonls")
     end
 })
+vim.api.nvim_create_autocmd("BufEnter", {
+    pattern = { "*.yaml" },
+    callback = function()
+        lvim.format_on_save = true
+        require("lvim.lsp.manager").setup("yaml")
+    end
+})
 
 --[[
 --for an example of full-on crazy-complete lunarvim config:
@@ -191,5 +198,12 @@ vim.api.nvim_create_autocmd("BufEnter", {
     callback = function()
         require 'reaper-nvim'.setup()
         vim.g.reaper_fuzzy_command = "fzf"
+    end
+})
+
+vim.api.nvim_create_autocmd("BufWrite", {
+    pattern = { "/home/antoine/.config/REAPER/Scripts/perken/rack/**/*" },
+    callback = function()
+        vim.cmd("silent exec '!reaper -nonewinst /home/antoine/.config/lvim/lua/user/callReaperTweak.lua &'")
     end
 })
