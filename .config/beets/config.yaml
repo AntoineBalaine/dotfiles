@@ -5,15 +5,17 @@ directory: ~/Music/Albums/
 library: ~/.config/beets/library.db
 import:
   move: yes
+paths:
+  default: $albumartist/$album%aunique{}/$track $title # in case of change: `beet move`
 plugins: 
-  - ftintitle 
-  - keyfinder 
-  - xtractor
-  - yearfixer
+  - ftintitle # feature in title (move from artist's field)
+  - keyfinder # find music key
+  - xtractor  # use models for in-depth analysis, including bpm
+  - yearfixer # fix missing year fields
+  - follow    # follow artist using muspy. uses deprecated APIs, though…
+  - lyrics    # fetch lyrics and write to metadata
+  - missing   # lists missing tracks in albums
   # - lastgenre # TO DO using https://github.com/florib779/beets-config/blob/master/config.yaml
-  - follow
-  - lyrics
-  # - bpmanalyser
 ftintitle:
   auto: yes
   drop: no
@@ -22,13 +24,6 @@ keyfinder:
   auto: yes
   bin: keyfinder-cli
   overwrite: no
-# bpmanalyser:
-#   auto: no
-#   dry-run: no
-#   write: yes
-#   threads: 2
-#   force: no
-#   quiet: no
 xtractor: # $ beet xtractor [options] [QUERY...]
     auto: no
     dry-run: no
@@ -57,6 +52,11 @@ xtractor: # $ beet xtractor [options] [QUERY...]
                 - /usr/share/mpplus-essentia/svm_models/moods_mirex.history
 yearfixer:
   force: no
+follow: # this plugin uses deprecated api…
+  email: danieldulorens@gmail.com
+  password: =S~J8%Ce]fT.PCm
+  userid: za6fmz0tued5nu7wkc6saba3a4o1lg
+  auto: yes
 lyrics:
   auto: yes                  # Fetch lyrics automatically during import. Default: yes.
   fallback: ''               # By default, the file will be left unchanged when no lyrics are found.
@@ -74,4 +74,7 @@ lyrics:
     - lyricwiki
     - tekstowo
     - musixmatch             # Possibly just 30% of a whole song text
-                             
+missing:
+    format: $albumartist - $album - $title
+    count: no
+    total: no
