@@ -23,7 +23,7 @@ export EDITOR=~/.local/bin/lvim;
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" ' 
 eval "$(zoxide init bash)"
 eval "$(mcfly init bash)"
-alias cpwd="pwd | xclip -sel clip"
+alias cpwd="pwd | wl-copy"
 alias bépo="cd /home/antoine/Documents/Experiments/ploverBépo/bépo/plover_bepo; ranger"
 alias plover="/home/antoine/Documents/AppImages/plover-4.0.0.dev10+115.gc75215e-x86_64.AppImage"
 alias webcam="sudo modprobe facetimehd"
