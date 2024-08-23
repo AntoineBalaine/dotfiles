@@ -14,12 +14,12 @@ ranger() {
         exit
     fi
 }
-alias nvim="lvim"
 export PATH="~/.local/bin:$PATH";
 export PATH="~/Documents/Experiments/nvim/potion/bin:$PATH";
 export PATH="~/.local/share/gem/ruby/3.0.0/bin:$PATH";
-export VISUAL=~/.local/bin/lvim;
-export EDITOR=~/.local/bin/lvim;
+# export PATH="/home/antoine/Documents/Experiments/zig/zig-linux-x86_64-0.13.0-dev.46+3648d7df1/zig:$PATH";
+export VISUAL=~/.local/bin/nvim;
+export EDITOR=~/.local/bin/nvim;
 export FZF_DEFAULT_COMMAND='rg --files --hidden -g "!.git" ' 
 eval "$(zoxide init bash)"
 eval "$(mcfly init bash)"
@@ -37,13 +37,16 @@ alias config='/usr/bin/git --git-dir=/home/antoine/.cfg/ --work-tree=/home/antoi
 alias lazyconfig='lazygit --git-dir=/home/antoine/.cfg/ --work-tree=/home/antoine'
 alias lg="lazygit"
 reaperconf="/home/antoine/.config/REAPER/"
-alias reapervim="lvim /home/antoine/.config/REAPER/Scripts/reaper-keys"
+alias reapervim="nvim /home/antoine/.config/REAPER/Scripts/reaper-keys"
+
+# alias zig="/home/antoine/Documents/Experiments/zig/zig-linux-x86_64-0.13.0-dev.46+3648d7df1/zig"
 export PATH="$PATH:$HOME/.local/share/yabridge"
 export PATH="$PATH:/etc/bash_completion"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 #
+alias transfer="bash /home/antoine/Documents/Experiments/reaper_exp/reaper_sh_scripts/transfer.sh"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 alias fzbat="fzf --preview 'bat --color=always {}' --preview-window '~3'"
