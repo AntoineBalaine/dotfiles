@@ -7,3 +7,6 @@ vim.api.nvim_command("set relativenumber")
 vim.opt.scrolloff = 0
 vim.opt.concealcursor = "nc"
 vim.opt.spell = false
+vim.lsp.inlay_hint.enable(false)
+vim.opt.conceallevel = 0
+-- vim.g.root_spec = { "cwd" }
