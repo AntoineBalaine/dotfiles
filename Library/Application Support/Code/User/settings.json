@@ -6,7 +6,7 @@
   },
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "editor.wordWrap": "on",
+  "editor.wordWrap": "off",
   "editor.cursorBlinking": "solid",
   "vim.useSystemClipboard": true,
   "vim.smartRelativeLine": true,
@@ -28,6 +28,10 @@
     }
   ],
   "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["K"],
+      "commands": ["editor.action.showDefinitionPreviewHover"]
+    },
     {
       "before": ["g", "r"],
       "commands": ["gitlens.diffWithRevisionFrom"],
@@ -93,7 +97,6 @@
   "git.confirmSync": false,
   "eslint.lintTask.enable": true,
   "git.mergeEditor": false,
-  "diffEditor.ignoreTrimWhitespace": false,
   "gitlens.changes.toggleMode": "window",
   "vim.easymotion": true,
   "workbench.editor.pinnedTabSizing": "shrink",
@@ -128,12 +131,29 @@
   ],
   "errorLens.excludeBySource": ["ts(2304)"],
   "workbench.colorTheme": "Black",
-  "diffEditor.renderSideBySide": false,
   "workbench.editor.wrapTabs": true,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "git.openRepositoryInParentFolders": "always",
-  "window.zoomLevel": 2
-  // "workbench.editor.tabSizing": "shrink",
+  "window.zoomLevel": 2,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.renderSideBySide": false,
+  "editor.suggest.showWords": false,
+  "reascript-docs.reaImGuiVersion": "<0.9",
+  "github.copilot.editor.enableAutoCompletions": true,
+  "zig.path": "zig",
+  "go.formatTool": "gofmt",
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "github.copilot.preferredAccount": "266836_nttds",
+  "github.copilot.advanced": {},
+  "zig.zls.enabled": "on",
+  "[typst]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  },
+  "[typst-code]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  }
 }
