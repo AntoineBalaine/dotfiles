@@ -9,4 +9,5 @@ vim.opt.concealcursor = "nc"
 vim.opt.spell = false
 vim.lsp.inlay_hint.enable(false)
 vim.opt.conceallevel = 0
+vim.g.snacks_animate = false
 -- vim.g.root_spec = { "cwd" }
