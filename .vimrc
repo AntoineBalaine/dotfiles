@@ -6,7 +6,6 @@ call plug#begin()
   Plug 'rking/ag.vim'
   Plug 'junegunn/fzf'
   Plug 'yuki-yano/fzf-preview.vim', { 'branch': 'release/rpc' }
-  Plug 'neoclide/coc.nvim', { 'branch': 'release' }
   Plug 'francoiscabrol/ranger.vim'
   Plug 'tpope/vim-surround'
   Plug 'Raimondi/delimitMate'
@@ -138,7 +137,6 @@ execute "set <xLeft>=\e[1;*D"
 endif
 
 " get Coc to insert line on <CR> press between brackets & parenthesis
- inoremap <silent><expr> <cr> pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 "syntax enable
 syntax off
