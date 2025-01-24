@@ -11,3 +11,4 @@ vim.lsp.inlay_hint.enable(false)
 vim.opt.conceallevel = 0
 vim.g.snacks_animate = false
 -- vim.g.root_spec = { "cwd" }
+vim.o.grepprg = "rg --vimgrep --smart-case --follow"
