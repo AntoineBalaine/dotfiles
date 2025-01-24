@@ -1,5 +1,7 @@
 -- bootstrap lazy.nvim, LazyVim and your plugins
 require("config.lazy")
+require("user.removegetters")
+require("user.transform_setters")
 require("user.helpers")
 require("user.lua_adventures")
 insert_image = require("user.insert_image").insert_image
