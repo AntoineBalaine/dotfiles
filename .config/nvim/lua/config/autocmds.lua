@@ -74,35 +74,57 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "FileType" }, {
   desc = "Don’t highlight folds",
 })
 
--- vim.api.nvim_create_autocmd("BufReadPost", {
---   pattern = "*",
---   callback = function()
---     local bufnr = vim.api.nvim_get_current_buf()
---
---     -- Check if this buffer has already been folded
---     if vim.b[bufnr].folded_once then
---       return
---     end
---     local filetype = vim.bo.filetype
---     -- Add all filetypes you want to fold
---     local fold_filetypes = {
---       "lua",
---       "python",
---       "javascript",
---       "typescript",
---       "rust",
---       "go",
---       "zig",
---     }
---
---     -- Check if current filetype should be folded
---     if vim.tbl_contains(fold_filetypes, filetype) then
---       vim.opt_local.foldmethod = "expr"
---       vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
---       vim.opt_local.foldnestmax = 1
---       vim.cmd("normal! zM")
---
---       vim.b[bufnr].folded_once = true
---     end
---   end,
--- })
+vim.api.nvim_create_autocmd("BufReadPost", {
+  pattern = "*",
+  callback = function()
+    local filetype = vim.bo.filetype
+    -- Add all filetypes you want to fold
+    local fold_filetypes = {
+      "lua",
+      "python",
+      "javascript",
+      "typescript",
+      "rust",
+      "go",
+      "zig",
+    }
+
+    -- Check if current filetype should be folded
+    if vim.tbl_contains(fold_filetypes, filetype) then
+      vim.opt_local.foldmethod = "expr"
+      vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+      vim.opt_local.foldnestmax = 1
+      vim.cmd("normal! zM")
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "zig",
+  callback = function()
+    vim.keymap.set("n", "<leader>zb", function()
+      require("zig-comp-diag").runWithCmd({ "zig", "build", "-Dtest=true" })
+    end, { buffer = true, desc = "Zig build" })
+
+    vim.keymap.set("n", "<leader>zt", function()
+      require("zig-comp-diag").runWithCmd({ "zig", "test", vim.fn.expand("%") })
+    end, { buffer = true, desc = "Zig test current file" })
+
+    vim.keymap.set("n", "<leader>zT", function()
+      require("zig-comp-diag").runWithCmd({ "zig", "build", "test" })
+    end, { buffer = true, desc = "Zig build test" })
+
+    vim.keymap.set("n", "<leader>zr", function()
+      require("zig-comp-diag").runWithCmd({
+        "zig",
+        "build",
+        "-Dtest=true",
+        "--prefix",
+        '"/Users/a266836/Library/Application Support/REAPER/UserPlugins"',
+        "&&",
+        "/Applications/REAPER.app/Contents/MacOS/REAPER",
+        "new",
+      })
+    end, { buffer = true, desc = "Zig install reaper" })
+  end,
+})
