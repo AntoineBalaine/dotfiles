@@ -1,0 +1,12 @@
+# ~/.config/jesseduffield/lazygit/config.yml
+git:
+  paging:
+    colorArg: always
+    pager: delta --dark --paging=never
+  pull:
+    mode: 'rebase'
+os:
+  editCommand: 'nvim'
+  editAtLine: 'nvim --line={{line}} {{filename}}'
+promptToReturnFromSubprocess: false
+  # editCommandTemplate: '{{editor}} --server /tmp/nvim-server.pipe --remote-tab "$(pwd)/{{filename}}"'
