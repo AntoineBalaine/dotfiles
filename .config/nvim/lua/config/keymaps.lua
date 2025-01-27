@@ -56,6 +56,62 @@ function RemoveQFItem()
   end
 end
 
+-- Function to remove selected lines from quickfix list
+local function remove_qf_items()
+  local qf_list = vim.fn.getqflist()
+
+  local line1 = vim.fn.line("v") -- start of visual selection
+  local line2 = vim.fn.line(".") -- current line (end of selection)
+
+  print(string.format("line1: %d, line2: %d", line1, line2))
+
+  -- Always remove from higher index to lower index
+  local start_line = math.min(line1, line2)
+  local end_line = math.max(line1, line2)
+  -- Get the current quickfix list
+  -- Remove the selected items (accounting for 1-based indexing)
+  for i = end_line, start_line, -1 do
+    table.remove(qf_list, i)
+  end
+
+  -- Update the quickfix list
+  vim.fn.setqflist(qf_list, "r")
+
+  -- Refresh the quickfix window
+  -- local qf_win = vim.fn.getqflist({ winid = 0 }).winid
+  -- if qf_win ~= 0 then
+  --   vim.cmd("copen")
+  -- end
+end
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    -- Make buffer modifiable
+    vim.opt_local.modifiable = true
+    -- Set error format to match the quickfix format
+    vim.opt_local.errorformat = "%f\\|%l\\ col\\ %c\\|%m"
+
+    -- Now cgetbuffer should work correctly
+    -- You can use normal vim commands, and then update with:
+  end,
+})
+
+-- Set up the keymap for the quickfix window
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "qf",
+  callback = function()
+    -- Map 'd' in visual mode to remove selected items
+    vim.keymap.set(
+      { "v", "x" },
+      "d",
+      remove_qf_items,
+      { buffer = true, desc = "Remove selected items from quickfix list" }
+    )
+
+    -- vim.keymap.set("x", "d", remove_qf_items, { buffer = true, desc = "Remove selected items from quickfix list" })
+  end,
+})
+
 -- Set up the keymap for the quickfix window
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
@@ -68,6 +124,11 @@ vim.keymap.set("n", "<leader>C", function()
   local cmp = require("cmp")
   local enabled = cmp.get_config().enabled -- Get current state
   cmp.setup({ enabled = not enabled }) -- Toggle state
+  if enabled == false then
+    vim.g.copilot_enabled = false
+  else
+    vim.g.copilot_enabled = false
+  end
   vim.notify("Completions " .. (not enabled and "enabled" or "disabled"))
 end, { desc = "Toggle completions (CMP)" })
 
@@ -79,3 +140,6 @@ vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
 vim.keymap.set("n", "k", RMGET, { desc = "remove getter" })
+
+
+vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to CopilotChat" })
