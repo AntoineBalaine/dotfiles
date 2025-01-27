@@ -139,8 +139,6 @@ vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
-vim.keymap.set("n", "k", RMGET, { desc = "remove getter" })
-
 vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to CopilotChat" })
 
 -- History management
