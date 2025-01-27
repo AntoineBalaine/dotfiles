@@ -141,5 +141,35 @@ vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
 vim.keymap.set("n", "k", RMGET, { desc = "remove getter" })
 
-
 vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to CopilotChat" })
+
+-- History management
+vim.keymap.set("n", "<leader>aS", ":CopilotChatSave ", { desc = "Save Chat History" })
+vim.keymap.set("n", "<leader>al", ":CopilotChatLoad ", { desc = "Load Chat History" })
+
+-- Configuration and info
+vim.keymap.set("n", "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", { desc = "Debug Info" })
+vim.keymap.set("n", "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select Model" })
+vim.keymap.set("n", "<leader>aa", "<cmd>CopilotChatAgents<cr>", { desc = "Select Agent" })
+
+vim.keymap.set("v", "<leader>ae", ":'<,'>CopilotChat explain this code<cr>", { desc = "Explain Selected Code" })
+vim.keymap.set(
+  "v",
+  "<leader>at",
+  ":'<,'>CopilotChat write tests for this code<cr>",
+  { desc = "Generate Tests for Selection" }
+)
+vim.keymap.set("v", "<leader>af", ":'<,'>CopilotChat fix this code<cr>", { desc = "Fix Selected Code" })
+vim.keymap.set("v", "<leader>ar", ":'<,'>CopilotChat refactor this code<cr>", { desc = "Refactor Selected Code" })
+
+-- Regular commands without selection
+vim.keymap.set("n", "<leader>ac", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Chat" })
+vim.keymap.set("n", "<leader>ao", "<cmd>CopilotChatOpen<cr>", { desc = "Open Chat" })
+vim.keymap.set("n", "<leader>aq", "<cmd>CopilotChatClose<cr>", { desc = "Close Chat" })
+vim.keymap.set("n", "<leader>ax", "<cmd>CopilotChatStop<cr>", { desc = "Stop Chat Output" })
+vim.keymap.set("n", "<leader>ar", "<cmd>CopilotChatReset<cr>", { desc = "Reset Chat" })
+vim.keymap.set("n", "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", { desc = "Debug Info" })
+vim.keymap.set("n", "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select Model" })
+vim.keymap.set("n", "<leader>aa", "<cmd>CopilotChatAgents<cr>", { desc = "Select Agent" })
+
+vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to chat" })
