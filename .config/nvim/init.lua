@@ -3,9 +3,6 @@ require("config.lazy")
 require("user.helpers")
 require("user.lua_adventures")
 
--- Create a command to call the function
-vim.api.nvim_create_user_command("TransformFn", transform_function_declaration, {})
-
 vim.cmd("packadd cfilter")
 require("nvim-treesitter.configs").setup({
   matchup = {
