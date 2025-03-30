@@ -11,3 +11,6 @@ require("nvim-treesitter.configs").setup({
     -- [options]
   },
 })
+
+vim.opt.exrc = true
+vim.o.secure = true
