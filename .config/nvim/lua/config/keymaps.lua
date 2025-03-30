@@ -22,21 +22,7 @@ vim.keymap.set("n", "<F20>", vim.diagnostic.goto_prev, { desc = "Go to previous 
 
 vim.keymap.set("t", "<Esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
--- Git hunk navigation (assuming you're using gitsigns.nvim)
-vim.keymap.set("n", "<F53>", function()
-  require("gitsigns").nav_hunk("next")
-end, { desc = "Go to next git hunk" })
-
-vim.keymap.set("n", "<S-M-F5>", function()
-  require("gitsigns").nav_hunk("prev")
-end, { desc = "Go to previous git hunk" })
-
--- toggle inline diff
-vim.keymap.set("n", "<leader>gd", function()
-  -- require("gitsigns").toggle_linehl()
-  require("gitsigns").toggle_deleted()
-end, { desc = "Inline diff" })
--- " When using `dd` in the quickfix list, remove the item from the quickfix list.
+vim.keymap.set({ "n", "v" }, "H", "^", { desc = "First non-blank character of line", noremap = true })
 
 -- When using `dd` in the quickfix list, remove the item from the quickfix list.
 function RemoveQFItem()
@@ -139,35 +125,5 @@ vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
-vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to CopilotChat" })
-
--- History management
-vim.keymap.set("n", "<leader>aS", ":CopilotChatSave ", { desc = "Save Chat History" })
-vim.keymap.set("n", "<leader>al", ":CopilotChatLoad ", { desc = "Load Chat History" })
-
--- Configuration and info
-vim.keymap.set("n", "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", { desc = "Debug Info" })
-vim.keymap.set("n", "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select Model" })
-vim.keymap.set("n", "<leader>aa", "<cmd>CopilotChatAgents<cr>", { desc = "Select Agent" })
-
-vim.keymap.set("v", "<leader>ae", ":'<,'>CopilotChat explain this code<cr>", { desc = "Explain Selected Code" })
-vim.keymap.set(
-  "v",
-  "<leader>at",
-  ":'<,'>CopilotChat write tests for this code<cr>",
-  { desc = "Generate Tests for Selection" }
-)
-vim.keymap.set("v", "<leader>af", ":'<,'>CopilotChat fix this code<cr>", { desc = "Fix Selected Code" })
-vim.keymap.set("v", "<leader>ar", ":'<,'>CopilotChat refactor this code<cr>", { desc = "Refactor Selected Code" })
-
--- Regular commands without selection
-vim.keymap.set("n", "<leader>ac", "<cmd>CopilotChatToggle<cr>", { desc = "Toggle Chat" })
-vim.keymap.set("n", "<leader>ao", "<cmd>CopilotChatOpen<cr>", { desc = "Open Chat" })
-vim.keymap.set("n", "<leader>aq", "<cmd>CopilotChatClose<cr>", { desc = "Close Chat" })
-vim.keymap.set("n", "<leader>ax", "<cmd>CopilotChatStop<cr>", { desc = "Stop Chat Output" })
-vim.keymap.set("n", "<leader>ar", "<cmd>CopilotChatReset<cr>", { desc = "Reset Chat" })
-vim.keymap.set("n", "<leader>ad", "<cmd>CopilotChatDebugInfo<cr>", { desc = "Debug Info" })
-vim.keymap.set("n", "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select Model" })
-vim.keymap.set("n", "<leader>aa", "<cmd>CopilotChatAgents<cr>", { desc = "Select Agent" })
-
-vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to chat" })
+vim.keymap.set("i", "<D-CR>", "<Esc>o", { noremap = true, desc = "Create new line above and enter insert mode" })
+vim.keymap.set("i", "<S-D-CR>", "<Esc>O", { noremap = true, desc = "Create new line above and enter insert mode" })
