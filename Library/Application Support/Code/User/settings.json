@@ -6,7 +6,7 @@
   },
   "eslint.alwaysShowStatus": true,
   "eslint.format.enable": true,
-  "editor.wordWrap": "off",
+  "editor.wordWrap": "on",
   "editor.cursorBlinking": "solid",
   "vim.useSystemClipboard": true,
   "vim.smartRelativeLine": true,
@@ -137,11 +137,11 @@
   },
   "git.openRepositoryInParentFolders": "always",
   "window.zoomLevel": 2,
-  "diffEditor.ignoreTrimWhitespace": false,
+  "diffEditor.ignoreTrimWhitespace": true,
   "diffEditor.renderSideBySide": false,
   "editor.suggest.showWords": false,
   "reascript-docs.reaImGuiVersion": "<0.9",
-  "github.copilot.editor.enableAutoCompletions": true,
+  "github.copilot.editor.enableAutoCompletions": false,
   "zig.path": "zig",
   "go.formatTool": "gofmt",
   "[markdown]": {
@@ -155,5 +155,15 @@
   },
   "[typst-code]": {
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
-  }
+  },
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      "serverUrl": "https://sonarqube.io.pge.com",
+      "connectionId": "https-sonarqube-io-pge-com-"
+    }
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.blame.editorDecoration.enabled": true
 }
