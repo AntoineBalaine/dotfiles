@@ -23,6 +23,8 @@
 [includeIf]
   path = "/Library/Audio/Presets/Xfer Records"
 
+# in case of issues with SSH keys:
+# git config core.sshCommand "ssh -i ~/.ssh/your_specific_key"
 
 [core]
     pager = delta
