@@ -12,3 +12,5 @@ vim.opt.conceallevel = 0
 vim.g.snacks_animate = false
 -- vim.g.root_spec = { "cwd" }
 vim.o.grepprg = "rg --vimgrep --smart-case --follow"
+-- If no prettier config file is found, the formatter will not be used
+vim.g.lazyvim_prettier_needs_config = false

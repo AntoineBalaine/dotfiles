@@ -170,3 +170,17 @@ vim.keymap.set("n", "<leader>am", "<cmd>CopilotChatModels<cr>", { desc = "Select
 vim.keymap.set("n", "<leader>aa", "<cmd>CopilotChatAgents<cr>", { desc = "Select Agent" })
 
 vim.keymap.set("v", "<leader>as", ":'<,'>CopilotChatSelection<CR>", { desc = "Send selection to chat" })
+
+local function goto_parent()
+  local node = vim.treesitter.get_node()
+  if node and node:parent() then
+    local parent = node:parent()
+    if parent == nil then
+      return
+    end
+    local start_row, start_col, end_row, end_col = parent:range()
+    vim.api.nvim_win_set_cursor(0, { start_row + 1, start_col })
+  end
+end
+
+vim.keymap.set("n", "[p", goto_parent, { desc = "go to parent" })
