@@ -127,3 +127,19 @@ vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
 vim.keymap.set("i", "<D-CR>", "<Esc>o", { noremap = true, desc = "Create new line above and enter insert mode" })
 vim.keymap.set("i", "<S-D-CR>", "<Esc>O", { noremap = true, desc = "Create new line above and enter insert mode" })
+
+-- Map <C-Up> to jump to the window above
+vim.api.nvim_set_keymap("n", "<C-Up>", "<C-w>k", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-Up>", "<C-o><C-w>k", { noremap = true })
+
+-- Map <C-Down> to jump to the window below
+vim.api.nvim_set_keymap("n", "<C-Down>", "<C-w>j", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-Down>", "<C-o><C-w>j", { noremap = true })
+
+-- Map <C-Left> to jump to the window on the left
+vim.api.nvim_set_keymap("n", "<C-Left>", "<C-w>h", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-Left>", "<C-o><C-w>h", { noremap = true })
+
+-- Map <C-Right> to jump to the window on the right
+vim.api.nvim_set_keymap("n", "<C-Right>", "<C-w>l", { noremap = true })
+vim.api.nvim_set_keymap("i", "<C-Right>", "<C-o><C-w>l", { noremap = true })

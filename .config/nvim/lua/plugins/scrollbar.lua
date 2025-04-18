@@ -2,8 +2,8 @@ return {
   "lewis6991/satellite.nvim",
   opts = {
     current_only = false,
-    winblend = 0,
-    zindex = 90,
+    winblend = 20,
+    -- zindex = 80,
     excluded_filetypes = {},
     width = 1,
     handlers = {
