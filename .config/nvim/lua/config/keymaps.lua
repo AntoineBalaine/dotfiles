@@ -106,6 +106,7 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
+-- toggle completions
 vim.keymap.set("n", "<leader>C", function()
   local cmp = require("cmp")
   local enabled = cmp.get_config().enabled -- Get current state
@@ -117,13 +118,6 @@ vim.keymap.set("n", "<leader>C", function()
   end
   vim.notify("Completions " .. (not enabled and "enabled" or "disabled"))
 end, { desc = "Toggle completions (CMP)" })
-
-local dap = require("dap")
-
-vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
-vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
-vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
-vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
 
 vim.keymap.set("i", "<D-CR>", "<Esc>o", { noremap = true, desc = "Create new line above and enter insert mode" })
 vim.keymap.set("i", "<S-D-CR>", "<Esc>O", { noremap = true, desc = "Create new line above and enter insert mode" })
@@ -143,3 +137,6 @@ vim.api.nvim_set_keymap("i", "<C-Left>", "<C-o><C-w>h", { noremap = true })
 -- Map <C-Right> to jump to the window on the right
 vim.api.nvim_set_keymap("n", "<C-Right>", "<C-w>l", { noremap = true })
 vim.api.nvim_set_keymap("i", "<C-Right>", "<C-o><C-w>l", { noremap = true })
+
+-- stylua: ignore
+vim.keymap.set("n", "<leader>bc", function() vim.cmd("close") end, { desc = "close window" })
