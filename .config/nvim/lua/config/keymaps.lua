@@ -200,3 +200,5 @@ vim.api.nvim_set_keymap("i", "<C-Left>", "<C-o><C-w>h", { noremap = true })
 -- Map <C-Right> to jump to the window on the right
 vim.api.nvim_set_keymap("n", "<C-Right>", "<C-w>l", { noremap = true })
 vim.api.nvim_set_keymap("i", "<C-Right>", "<C-o><C-w>l", { noremap = true })
+
+vim.api.nvim_set_keymap("n", "<C-x>", ":bd<cr>", { noremap = true })
