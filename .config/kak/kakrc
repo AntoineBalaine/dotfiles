@@ -1,0 +1,262 @@
+# autoload std lib plugins
+nop %sh{
+    mkdir -p "$kak_config/autoload"
+    ln -s "$kak_runtime/autoload" "$kak_config/autoload/standard-library"
+}
+
+# verbose mode
+# set -add global autoinfo normal
+
+# soft wrap
+addhl global/ wrap
+# Set the colour scheme
+colorscheme modus-vivendi
+
+set-option global tabstop 4
+
+# Indent with 4 spaces
+set-option global indentwidth 4
+
+# Always keep one line and three columns displayed around the cursor
+set-option global scrolloff 1,3
+
+# Display the status bar on top
+set-option global ui_options ncurses_status_on_top=true
+
+# Display line numbers
+add-highlighter global/ number-lines -relative
+
+# Highlight trailing whitespace
+add-highlighter global/ regex \h+$ 0:Error
+
+# Softwrap long lines
+add-highlighter global/ wrap -word -indent
+
+# macos clipboard
+hook global RegisterModified '"' %{ nop %sh{
+      #test "$(uname)" = "Darwin" && echo 'pbcopy' || echo 'xclip'
+  printf %s "$kak_main_reg_dquote" | pbcopy -input --clipboard
+
+
+}}
+map global normal P '!pbpaste<ret>'
+map global normal p '<a-!>pbpaste<ret>'
+
+# Shortcut to quickly exit the editor
+define-command -docstring "save and quit" x "write-all; quit"
+
+
+# Add backticks to matching pairs
+set-option global matching_pairs ( ) [ ] { } < > « »
+
+# fuzzy picker using fd
+define-command fd %{
+  prompt -shell-script-candidates 'fd --type file' open: %{ edit -existing %val{text} }
+}
+
+# open config from anywhere
+define-command config %{ edit "%val{config}/kakrc" }
+
+# moving around in insert omde
+map global normal <c-left>    'b;'
+map global normal <c-right>   'w;'
+map global normal <c-up>      '[p;'
+map global normal <c-down>    ']p;'
+map global insert '<c-w>' '<esc>bdi'
+map global insert '<c-e>' '<a-;>gl'
+# map global insert '<c-left>' 'gh' -docstring 'previous word'
+# map global insert '<c-right>' 'gl' -docstring 'next word'
+map global insert '<a-left>' '<esc>bi'
+map global insert '<a-right>' '<esc>wwi'
+map global insert <c-left> '<esc>b;i'
+map global insert <c-right> '<esc>w;i'
+
+# <c-s> - Save file
+map global normal <c-s> ': w<ret>'
+map global insert <c-s> '<a-;>: w<ret>'
+
+# go to begining and end of a line in insert mode
+map global insert <a-right> '<a-;>gl<right>'
+map global insert <a-left> '<a-;>gi'
+
+# center the cursor vertically
+map global insert <a-v> '<a-;>vv'
+
+# move lines
+map global insert <a-down> '<esc><esc>xdjPki'
+map global insert <a-up> '<esc><esc>xdkPki'
+
+# new line
+# map global insert <c-n> '<esc>o'
+
+# which-key style «code edits»
+declare-user-mode code-edit
+map global user c ':enter-user-mode code-edit<ret>' -docstring 'code edit'
+map global code-edit c ":comment-line<ret>" -docstring 'format code'
+
+# like vscodium's ctrl-d
+define-command -hidden -docstring \
+"select a word under cursor, or add cursor on next occurrence of current selection" \
+select-or-add-cursor %{
+    try %{
+        execute-keys "<a-k>\A.\z<ret>"
+        execute-keys -save-regs '' "_<a-i>w*"
+    } catch %{
+        execute-keys -save-regs '' "_*<s-n>"
+    } catch nop
+}
+
+define-command -override -docstring "select a word under cursor, or add cursor on next occurrence of current selection" \
+select-or-add-cursor %{ execute-keys -save-regs '' %sh{
+    if [ $(expr $(echo $kak_selection | wc -m) - 1) -eq 1 ]; then
+        echo "<a-i>w*"
+    else
+        echo "*<s-n>"
+    fi
+}}
+map global normal <a-d> ":select-or-add-cursor<ret>"
+
+# git jump hunks
+# for crying out loud, let’s look into:
+# https://github.com/evannjohnson/git-async.kak
+declare-user-mode git-c
+map global user g ":enter-user-mode git-c<ret>" -docstring "git cmds"
+map global git-c w ":git next-hunk<ret>" -docstring "next hunk"
+map global git-c b ":git prev-hunk<ret>" -docstring "prev hunk"
+
+# Define a command to load git diff if in a git repository
+define-command git-load-diff -docstring "Load git diff if in a git repository" %{
+    evaluate-commands %sh{
+        if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+            echo "git show diff"
+        fi
+    }
+}
+
+# Initial load when opening a file
+hook global WinCreate .* %{ git-load-diff }
+# # Refresh diff when buffer is written
+# hook global BufWritePost .* %{ git-load-diff }
+# # Refresh diff when buffer is reloaded
+# hook global BufReload .* %{ git-load-diff }
+# # Refresh after external changes are detected
+# hook global FocusIn .* %{ git-load-diff }
+
+# current-line highlighting
+set-face global crosshairs_line default,rgb:383838
+
+define-command -hidden crosshairs-highlight-line -docstring "Highlight current line" %{
+    try %{ remove-highlighter window/crosshairs-line }
+    try %{ add-highlighter window/crosshairs-line line %val{cursor_line} crosshairs_line }
+}
+
+# (current-line highlighting ctd.) Apply the highlighting immediately
+hook global WinCreate .* %{ crosshairs-highlight-line }
+hook global RawKey .* %{ crosshairs-highlight-line }
+
+# cursor color based on mode
+# hook global ModeChange insert:.* %{
+#     set-face global PrimaryCursor      rgb:ffffff,rgb:000000+F
+# }
+
+# hook global ModeChange .*:insert %{
+#     set-face global PrimaryCursor      rgb:ffffff,rgb:008800+F
+# }
+# set cursor to underline
+hook global InsertIdle .* %{
+  set-face window PrimaryCursor default,default+u
+  set-face window PrimaryCursorEol default,default+u
+  set-face window SecondaryCursor default,default+u
+  set-face window SecondaryCursorEol default,default+u
+  set-face window LineNumberCursor default,default+u
+  set-face window PrimarySelection default,default+u
+  set-face window SecondarySelection default,default+u
+}
+
+# set cursor to default
+hook global NormalIdle .* %{
+  set-face window PrimaryCursor default,default+r
+  set-face window PrimaryCursorEol default,default+r
+  set-face window SecondaryCursor default,default+r
+  set-face window SecondaryCursorEol default,default+r
+  set-face window LineNumberCursor default,default+r
+  set-face window PrimarySelection default,default+r
+  set-face window SecondarySelection default,default+r
+} 
+# suspend-resume
+def suspend-and-resume \
+    -params 1..2 \
+    -docstring 'suspend-and-resume <cli command> [<kak command after resume>]: backgrounds current kakoune client and runs specified cli command.  Upon exit of command the optional kak command is executed.' \
+    %{ evaluate-commands %sh{
+
+    # Note we are adding '&& fg' which resumes the kakoune client process after the cli command exits
+    cli_cmd="$1 && fg"
+    post_resume_cmd="$2"
+
+    # automation is different platform to platform
+    platform=$(uname -s)
+    case $platform in
+        Darwin)
+	    automate_cmd="sleep 0.01; osascript -e 'tell application \"System Events\" to keystroke \"${cli_cmd}\n\"'"
+            kill_cmd="/bin/kill"
+            break
+            ;;
+        Linux)
+            automate_cmd="sleep 0.2; xdotool type '$cli_cmd'; xdotool key Return"
+            kill_cmd="/usr/bin/kill"
+            break
+            ;;
+    esac
+
+    # Uses platforms automation to schedule the typing of our cli command
+    nohup sh -c "$automate_cmd"  > /dev/null 2>&1 &
+    # Send kakoune client to the background
+    $kill_cmd -SIGTSTP $kak_client_pid
+
+    # ...At this point the kakoune client is paused until the " && fg " gets run in the $automate_cmd
+
+    # Upon resume, run the kak command is specified
+    if [ ! -z "$post_resume_cmd" ]; then
+        echo "$post_resume_cmd"
+    fi
+}}
+
+# tig integration
+def tig-blame -override -docstring 'Open blame in tig for current file and line' %{
+    # Note here we aren't passing any command on resume of kakoune
+    suspend-and-resume "tig blame +%val{cursor_line} %val{buffile}"
+}
+
+declare-user-mode tig
+map global tig b ': tig-blame<ret>' -docstring 'show blame (with tig)'
+map global tig s ': suspend-and-resume "tig status"<ret>' -docstring 'show git status (with tig)'
+map global tig m ': suspend-and-resume "tig"<ret>' -docstring 'show main view (with tig)'
+
+map global user t ': enter-user-mode tig<ret>' -docstring 'tig commands'
+
+# ranger integration
+def for-each-line \
+    -docstring "for-each-line <command> <path to file>: run command with the value of each line in the file" \
+    -params 2 \
+    %{ evaluate-commands %sh{
+
+    while read f; do
+        printf "$1 $f\n"
+    done < "$2"
+}}
+
+def ranger %{
+    suspend-and-resume \
+        "ranger --choosefiles=/tmp/ranger-files-%val{client_pid}" \
+        "for-each-line edit /tmp/ranger-files-%val{client_pid}"
+}
+
+map global user r ':ranger<ret>' -docstring 'select files in ranger'
+
+
+# highlight TODO comments
+# hook -group todohighlight global BufCreate %opt{regular_buffers} %{
+#     add-highlighter buffer/todo-highlight regex "%opt{comment_line}[ \t]*\b(TODO|FIXME|MAYBE)\b" 1:default+bu@comment
+# }
+#
+
