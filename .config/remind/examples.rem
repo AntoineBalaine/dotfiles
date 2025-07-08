@@ -1,0 +1,93 @@
+BANNER Reminders for %w, %d%s %m, %y%o:%
+IF defined("subsequent_iteration")
+  BANNER ---------------------%_%w, %m %d%s, %y%o:%
+ELSE
+  BANNER %w, %m %d%s, %y%o:%
+  SET subsequent_iteration 1
+  PRESERVE subsequent_iteration
+ENDIF
+
+# basic events
+REM Jul 7 MSG hello
+REM sat sun jul 2025 MSG world
+REM Jan 1 2026 MSG The first day of the 2026
+REM 2026-1-1 MSG Also the first day of the 2026
+REM Jan 1 MSG The first day of the year
+REM 1 MSG The first day of every month
+REM Jan MSG Every day in each January
+REM January MSG Also every day in each January
+REM Jan 1 MSG Every January 1st
+REM Jan 2026 MSG Every day in January 2026
+REM Wed MSG Every Wednesday
+REM Wednesday MSG Also every Wednesday
+REM Wed Jan MSG Every Wednesday in every January
+REM Wed Jan 2026 MSG Every Wednesday in January 2026
+REM Mon Wed Fri MSG Every Monday, Wednesday, and Friday
+REM Sat Sun Jan 2026 MSG Every weekend in January of 2026
+
+# recurring events
+REM Mon 1 MSG First Monday of the month
+REM Mon 1 Jan MSG First Monday in January
+REM Mon 1 Jan 2020 MSG First Monday in January, 2020
+REM Mon 8 MSG Second Monday of the month
+REM Mon 15 MSG Third Monday of the month
+REM Mon 22 MSG Fourth Monday of the month
+REM Mon 29 MSG Infrequent Fifth Monday of the month
+REM Sat Sun 15 MSG Third Saturday or Sunday of the month
+
+# time-events
+REM jul 9 AT 15:00 DURATION 1:00 MSG coffee with friend
+REM jul 7 AT 15:00 MSG long meeting
+
+# advance notice
+# single +n skips over OMIT dates, 
+# ++n ignores OMIT dates.
+REM Jan 1 2026 ++1 AT 14:00 MSG Doctor's appointment
+REM jul 12 ++7 MSG Mom's birthday
+REM aug 5 ++60 MSG Taxes
+
+# with substitution
+REM jul 12 ++7 MSG Dad’s birthday %b
+
+# adjusting backwards
+REM 1 --1 MSG Last day of the month
+REM 1 --7 MSG One week left in the month
+REM 1 Wed --7 MSG Last Wednesday of the month
+REM Feb 1 Wed --7 MSG Last Wednesday in January
+REM 1 --1 ++25 MSG Last day of the month, with notice
+
+# repeats by default, 
+# when you omit part of the date
+REM Jan 13 MSG Steve's birthday
+REM Feb 18 ++7 MSG Mom & Dad's anniversary
+REM Apr 1 ++1 MSG April Fool's Day
+REM Sun AT 9:00 MSG Church
+REM 15 MSG Invoice customers
+
+# repeats on a schedule
+REM jan 21 2025 *1 UNTIL aug 1 2025 MSG VACATION coming up
+# same thing, different syntax
+REM jan 21 2025 THROUGH aug 1 2025 MSG VACATION again
+
+# cal-only view
+REM jul 7 2025 CAL only in calendar
+# wrapping
+REM jul 7 MSF This is a very long reminder \
+  and includes several lines \
+  of text all with the escaping backslash \
+  but when you view it \
+  in the agenda view \
+  it will be wrapped \
+  so that it formats nicely.
+
+
+# evaluate expressions
+SET VacationStart date(2025, 12, 22)
+SET VacationEnd VacationStart + 10
+REM [VacationStart - 100] OMIT Sat Sun BEFORE \
+  MSG Submit time-off paperwork
+REM [VacationStart - 150] THROUGH [VacationStart - 120] MSG Buy tickets
+REM [VacationStart - 3] OMIT Sun BEFORE MSG Stop mail delivery
+REM [VacationStart - 1] MSG Pack bags
+REM [VacationStart] THROUGH [VacationEnd] MSG Vacation
+REM [VacationEnd + 1] OMIT Sat Sun AFTER MSG Back to work

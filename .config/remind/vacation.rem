@@ -1,0 +1,13 @@
+# evaluate expressions
+SET xmas25strt date(2025, 12, 22)
+SET xmas25end xmas25strt + 10
+REM [xmas25strt - 100] OMIT Sat Sun BEFORE \
+  MSG Submit time-off paperwork
+REM [xmas25strt - 150] THROUGH [xmas25strt - 142] MSG Billets France
+REM [xmas25strt - 3] OMIT Sun BEFORE MSG Stop mail delivery
+REM [xmas25strt - 1] MSG Bagages France
+REM [xmas25strt] THROUGH [xmas25end] MSG France
+REM [xmas25end + 1] OMIT Sat Sun AFTER MSG Back to work
+
+
+REM aug 28 2025 through sep 9 2025 MSG Christina Italy

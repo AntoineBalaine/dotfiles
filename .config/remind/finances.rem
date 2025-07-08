@@ -1,0 +1,12 @@
+# last Saturday of month
+REM 1 sat --7 MSG YNAB accountancy
+
+# REM july 1 2025 --7 through aug 31 2025 MSG wiretransfer
+SET cic_transfer "CIC transfer"
+REM [daysinmon(7, 2025) - 5] Jul 2025 MSG [cic_transfer]
+REM [daysinmon(8, 2025) - 5] Aug 2025 MSG [cic_transfer]
+
+REM 1 Aug 2025 MSG find financial advisor
+
+REM 31 Aug 2025 MSG student debt-free!
+

@@ -1,0 +1,21 @@
+REM      1 Jan    +3 MSG New Year's Day 
+REM Mon 15 Jan    +2 MSG MLK Day 
+REM      2 Feb       MSG Groundhog Day 
+REM     14 Feb    +2 MSG Valentine's Day 
+REM Mon 15 Feb    +2 MSG President's Day 
+REM     17 Mar    +2 MSG St Patrick's Day 
+REM      1 Apr    +9 MSG April Fool's Day 
+REM  [trigger(easterdate(today()))] +1 MSG Easter 
+REM     22 Apr    +2 MSG Earth Day 
+REM Fri  1 May -7 +2 MSG Arbor Day 
+REM Sun  8 May    +2 MSG Mother's Day 
+REM Mon  1 Jun -7 +2 MSG Memorial Day 
+REM Sun 15 Jun       MSG Father's Day
+REM      4 Jul    +2 MSG 4th of July 
+REM Mon  1 Sep    +2 MSG Labor Day 
+REM Mon  8 Oct    +2 MSG Columbus Day 
+REM     31 Oct    +2 MSG Halloween 
+REM Tue  2 Nov    +4 MSG Election Day 
+REM     11 Nov    +2 MSG Veteran's Day 
+REM Thu 22 Nov    +3 MSG Thanksgiving 
+REM     25 Dec    +3 MSG Christmas 
