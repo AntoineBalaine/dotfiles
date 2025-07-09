@@ -76,3 +76,9 @@ vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
 vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
+
+-- Window navigation with Control + Arrow keys
+vim.keymap.set("n", "<C-Up>", "<C-w><Up>", { desc = "Move to window above" })
+vim.keymap.set("n", "<C-Down>", "<C-w><Down>", { desc = "Move to window below" })
+vim.keymap.set("n", "<C-Left>", "<C-w><Left>", { desc = "Move to window left" })
+vim.keymap.set("n", "<C-Right>", "<C-w><Right>", { desc = "Move to window right" })
