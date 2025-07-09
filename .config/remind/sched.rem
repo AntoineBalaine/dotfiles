@@ -12,11 +12,11 @@ REM jul 8 2025 MSG relance Kelly Montréal
 REM sun FROM Jul 8 2025 UNTIL [date(2025,7,8) + ((16 - 3) * 7)] AT 09:30 DURATION 1:30 MSG Devops N°[(today() - date(2025,7,13)) / 7 + 4 ]
 
 REM jul 9 2025 MSG dotfiles reconcile
-REM jul 9 2025 MSG Montreal Dates
-REM jul 9 2025 MSG Achat Filtres AC
-REM jul 9 2025 MSG Goodwill
-REM jul 9 2025 MSG Search bouldering
-REM jul 12 2025 ++3 MSG bouldering
+REM jul 9 2025 AT 17:00 DURATION 0:30 MSG Achat Filtres AC
+REM jul 9 2025 AT 17:30 DURATION 0:30 MSG Goodwill
+
+REM jul 9 2025 THROUGH jul 12 2025 MSG Montreal Dates
+REM jul 9 2025 THROUGH jul 12 2025 MSG search bouldering
 
 REM jul 9 2025 AT 15:00 DURATION 0:30 MSG Café AJ
 REM jul 10 2025 AT 17:45 DURATION 2:30 MSG Dîner Jason/Dana
