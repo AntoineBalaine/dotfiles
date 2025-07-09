@@ -11,3 +11,15 @@ REM [xmas25end + 1] OMIT Sat Sun AFTER MSG Back to work
 
 
 REM aug 28 2025 through sep 9 2025 MSG Christina Italy
+
+
+set arrivee_parents date(2025, 11, 18)
+set depart_parents date(2025, 12, 2)
+rem [arrivee_parents] THROUGH [depart_parents] MSG Séjour Maman+Papa
+
+# Montreal: 
+# vol 350/personne
+# 1550 séjour
+# 200/jour * 4
+# $3100 total
+
