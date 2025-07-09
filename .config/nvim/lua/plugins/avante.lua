@@ -24,7 +24,7 @@ local function setup_avante_syntax()
     end,
   })
 end
-return {
+local custom_config = {
   "AntoineBalaine/avante.nvim",
   event = "VeryLazy",
   lazy = false,
@@ -211,3 +211,6 @@ return {
     { "<leader>as", ":'<,'>AvanteSelection<CR>", mode = { "x", "v" }, desc = "Send selection to Avante" },
   },
 }
+
+-- return custom_config
+return {}

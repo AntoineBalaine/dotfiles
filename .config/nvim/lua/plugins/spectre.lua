@@ -1,7 +1,5 @@
-return {
-  "AntoineBalaine/nvim-spectre",
-  dev = true,
-  dir = "/Users/antoine/Documents/personnel/experiments/nvim_plugins/nvim-spectre",
+local spectre_config = {
+  "nvim-pack/nvim-spectre",
   lazy = false,
   dependencies = {
     "nvim-lua/plenary.nvim",
@@ -33,3 +31,9 @@ return {
     { "<leader>fy", function() require("spectre").copy_enabled_filenames() end, desc = "copy enabled files’ names"}
   },
 }
+
+-- spectre_config[0] = "AntoineBalaine/nvim-spectre"
+-- spectre_config["dev"] = true
+-- spectre_config["dir"] = "/Users/antoine/Documents/personnel/experiments/nvim_plugins/nvim-spectre",
+
+return spectre_config
