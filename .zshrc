@@ -20,7 +20,7 @@ parse_git_branch() {
    G="git"
    #if current folder is home, G should be "config" instead
    if [[ "$PWD/" == "$HOME/" ]]; then
-      G="git --git-dir=/Users/a266836/.cfg/ --work-tree=/Users/a266836"
+      G="git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
    fi
    # G is a command, how to run it as a command instead of a string?
 
@@ -36,8 +36,8 @@ export PROMPT='${COLOR_USR}%n ${COLOR_DIR}%~ ${COLOR_GIT}$(parse_git_branch)${CO
 
 alias firefox="/Applications/Firefox\ Developer\ Edition.app/Contents/MacOS/firefox -start-debugger-server 6000"
 alias build="cd ~/Documents/Ryerson/web-components-common-ui/application; bit compile; cd ~/Documents/Ryerson/web-store-ui/application; cp -R ~/Documents/Ryerson/web-components-common-ui/application/node_modules/@ryerson/frontend.table/dist ~/Documents/Ryerson/web-store-ui/application/node_modules/@ryerson/frontend.table; yarn start;"
-alias config='/usr/bin/git --git-dir=/Users/a266836/.cfg/ --work-tree=/Users/a266836'
-alias lazyconfig='lazygit --git-dir=/Users/a266836/.cfg/ --work-tree=/Users/a266836'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias plover="/Applications/Plover.app/Contents/MacOS/Plover"
 # export PATH=$HOME/bin:$PATH
 # [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
@@ -56,21 +56,21 @@ export PATH="$PNPM_HOME:$PATH"
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/a266836/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+__conda_setup="$('$HOME/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
-    if [ -f "/Users/a266836/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/a266836/anaconda3/etc/profile.d/conda.sh"
+    if [ -f "$HOME/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "$HOME/anaconda3/etc/profile.d/conda.sh"
     else
-        export PATH="/Users/a266836/anaconda3/bin:$PATH"
+        export PATH="$HOME/anaconda3/bin:$PATH"
     fi
 fi
 unset __conda_setup
 # <<< conda initialize <<<
 
 eval "$(zoxide init zsh)"
-  export DENO_INSTALL="/Users/a266836/.deno"
+  export DENO_INSTALL="$HOME/.deno"
   export PATH="$DENO_INSTALL/bin:$PATH"
 
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
