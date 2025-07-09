@@ -36,3 +36,59 @@ vim.api.nvim_create_autocmd("FileType", {
     end, { buffer = true, desc = "Zig install reaper" })
   end,
 })
+
+-- these stupid plugins that reset this option at every file open…
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "*",
+  callback = function()
+    vim.opt_local.formatoptions:remove({ "o" })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "FileType" }, {
+  callback = function()
+    vim.opt_local.conceallevel = 0
+    vim.diagnostic.config({ virtual_text = false })
+  end,
+  desc = "Force conceallevel to always be 0",
+})
+
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "FileType" }, {
+  callback = function()
+    vim.api.nvim_set_hl(0, "Folded", { bg = "NONE" })
+  end,
+  desc = "Don’t highlight folds",
+})
+
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--   pattern = "*",
+--   callback = function()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--
+--     -- Check if this buffer has already been folded
+--     if vim.b[bufnr].folded_once then
+--       return
+--     end
+--     local filetype = vim.bo.filetype
+--     -- Add all filetypes you want to fold
+--     local fold_filetypes = {
+--       "lua",
+--       "python",
+--       "javascript",
+--       "typescript",
+--       "rust",
+--       "go",
+--       "zig",
+--     }
+--
+--     -- Check if current filetype should be folded
+--     if vim.tbl_contains(fold_filetypes, filetype) then
+--       vim.opt_local.foldmethod = "expr"
+--       vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+--       vim.opt_local.foldnestmax = 1
+--       vim.cmd("normal! zM")
+--
+--       vim.b[bufnr].folded_once = true
+--     end
+--   end,
+-- })

@@ -33,7 +33,7 @@ end, { desc = "Go to previous git hunk" })
 -- toggle inline diff
 vim.keymap.set("n", "<leader>gd", function()
   -- require("gitsigns").toggle_linehl()
-  require("gitsigns").toggle_deleted()
+  require("gitsigns").preview_hunk_inline()
 end, { desc = "Inline diff" })
 -- " When using `dd` in the quickfix list, remove the item from the quickfix list.
 
@@ -76,5 +76,3 @@ vim.keymap.set("n", "<F5>", dap.continue, { desc = "Debug: Continue" })
 vim.keymap.set("n", "<F10>", dap.step_over, { desc = "Debug: Step Over" })
 vim.keymap.set("n", "<F11>", dap.step_into, { desc = "Debug: Step Into" })
 vim.keymap.set("n", "<F12>", dap.step_out, { desc = "Debug: Step Out" })
-
-vim.keymap.set("n", "k", RMGET, { desc = "remove getter" })
