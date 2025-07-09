@@ -1,6 +1,29 @@
 [user]
-	email = abalaineaccts@gmail.com
-	name = Antoine Balaine
+	email = abalaine@nexient.com
+	name = Anthony Balaine
+
+[includeIf "gitdir:~/Documents/Experiments/"]
+  path = ~/Documents/Experiments/.gitconfig
+[includeIf "gitdir:~/Documents/personnel/"]
+  path = ~/Documents/personnel/.gitconfig
+[includeIf "gitdir:~/Documents/Ryerson/"]
+  path = ~/Documents/Ryerson/.gitconfig
+[includeIf "gitdir:~/Documents/Experiments/svelte/"]
+  path = ~/Documents/personnel/.gitconfig
+[includeIf "gitdir:~/Library/Application Support/REAPER/Scripts/"]
+  path = "~/Library/Application Support/REAPER/Scripts/.gitconfig"
+[includeIf "gitdir:~/Library/Application Support/REAPER/Scripts/reaper-keys/"]
+  path = "~/Library/Application Support/REAPER/Scripts/reaper-keys/.gitconfig"
+[includeIf "gitdir:~/Documents/bench/computerenhance/"]
+  path = "~/Documents/bench/computerenhance/.gitconfig"
+[includeIf "gitdir:~/Documents/bench/"]
+  path = "~/Documents/bench/.gitconfig"
+[includeIf "gitdir:~/Documents/PGE/"]
+  path = "~/Documents/PGE/.gitconfig"
+[includeIf]
+  path = "/Library/Audio/Presets/Xfer Records"
+
+
 [core]
     pager = delta
 	editor = lvim
@@ -27,3 +50,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[url "git@github.com/rteamweb/"]
+	insteadOf = https://github.com/rteamweb/
+[protocol "file"]
+	allow = user
+[pull]
+  rebase = true
