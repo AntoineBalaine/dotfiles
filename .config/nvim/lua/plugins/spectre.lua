@@ -30,5 +30,6 @@ return {
     { "<leader>fW", function() require("spectre").open_file_search({select_word=true}) end, desc = "Search in Current File" },
     { '<leader>fs', function() require("spectre").toggle() end, desc = "Toggle Spectre" },
     { "<leader>fw", function() require("spectre").open_visual({select_word=true}) end, desc = "Search Current Word" },
+    { "<leader>fy", function() require("spectre").copy_enabled_filenames() end, desc = "copy enabled files’ names"}
   },
 }

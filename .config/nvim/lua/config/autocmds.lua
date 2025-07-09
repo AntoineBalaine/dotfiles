@@ -74,27 +74,35 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter", "FileType" }, {
   desc = "Don’t highlight folds",
 })
 
-vim.api.nvim_create_autocmd("BufReadPost", {
-  pattern = "*",
-  callback = function()
-    local filetype = vim.bo.filetype
-    -- Add all filetypes you want to fold
-    local fold_filetypes = {
-      "lua",
-      "python",
-      "javascript",
-      "typescript",
-      "rust",
-      "go",
-      "zig",
-    }
-
-    -- Check if current filetype should be folded
-    if vim.tbl_contains(fold_filetypes, filetype) then
-      vim.opt_local.foldmethod = "expr"
-      vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
-      vim.opt_local.foldnestmax = 1
-      vim.cmd("normal! zM")
-    end
-  end,
-})
+-- vim.api.nvim_create_autocmd("BufReadPost", {
+--   pattern = "*",
+--   callback = function()
+--     local bufnr = vim.api.nvim_get_current_buf()
+--
+--     -- Check if this buffer has already been folded
+--     if vim.b[bufnr].folded_once then
+--       return
+--     end
+--     local filetype = vim.bo.filetype
+--     -- Add all filetypes you want to fold
+--     local fold_filetypes = {
+--       "lua",
+--       "python",
+--       "javascript",
+--       "typescript",
+--       "rust",
+--       "go",
+--       "zig",
+--     }
+--
+--     -- Check if current filetype should be folded
+--     if vim.tbl_contains(fold_filetypes, filetype) then
+--       vim.opt_local.foldmethod = "expr"
+--       vim.opt_local.foldexpr = "nvim_treesitter#foldexpr()"
+--       vim.opt_local.foldnestmax = 1
+--       vim.cmd("normal! zM")
+--
+--       vim.b[bufnr].folded_once = true
+--     end
+--   end,
+-- })

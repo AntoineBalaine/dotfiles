@@ -6,7 +6,7 @@ vim.api.nvim_command("set wrap")
 vim.api.nvim_command("set relativenumber")
 
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldnestmax = 1
 
 vim.opt.scrolloff = 0
@@ -22,6 +22,8 @@ vim.opt.formatoptions:remove({
   -- "r", -- auto-insert comment leader after `o` and `O` (allegedly?)
   "o", -- auto-insert comment leader after <ENTER>
 })
+-- vim.o.grepprg = "rg --vimgrep --no-heading --smart-case"
+vim.o.grepformat = "%f:%l:%c:%m"
 
 vim.g.minipairs_disable = true
 vim.opt.spell = false -- Disable spell checking globally

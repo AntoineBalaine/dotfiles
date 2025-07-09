@@ -20,7 +20,7 @@ parse_git_branch() {
    G="git"
    #if current folder is home, G should be "config" instead
    if [[ "$PWD/" == "$HOME/" ]]; then
-      G="git --git-dir=$HOME.cfg/ --work-tree=$HOME"
+      G="git --git-dir=$HOME/.cfg/ --work-tree=$HOME"
    fi
    # G is a command, how to run it as a command instead of a string?
 
@@ -75,4 +75,4 @@ eval "$(zoxide init zsh)"
 
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
-source ~/.env
+rem -q

@@ -8,24 +8,24 @@ echo 'SET remind_dir getenv("HOME") + "/.config/remind/"' >~/.config/remind/remi
 # if you want to use INCLUDE
 ln -s .config/remind/reminders.rem ~/.reminders
 # if you want to glob
-ln -s .config/remind/ ~/.reminders
+# ln -s .config/remind/ ~/.reminders
 touch ~/.config/remind/helpers.rem
 
-echo "IF !defined(\"HaveHelpers\")
-SET HaveHelpers 1
-# make sure this IF guard gets closed at the bottom
-
-
-# all my helpers go here
-ENDIF # HaveHelpers
-" >~/.config/remind/helpers.rem
-
-for f in ushol birthdays anniversaries work bills; do
-  # only if you’re using INCLUDE
-
-  echo "INCLUDE [filedir()]/helpers.rem" >~/.config/remind/${f}.rem
-  echo "INCLUDE [remind_dir]/${f}.rem" >>~/.config/remind/reminders.rem
-done
+# echo "IF !defined(\"HaveHelpers\")
+# SET HaveHelpers 1
+# # make sure this IF guard gets closed at the bottom
+#
+#
+# # all my helpers go here
+# ENDIF # HaveHelpers
+# " >~/.config/remind/helpers.rem
+#
+# for f in ushol birthdays anniversaries work bills; do
+#   # only if you’re using INCLUDE
+#
+#   echo "INCLUDE [filedir()]/helpers.rem" >~/.config/remind/${f}.rem
+#   echo "INCLUDE [remind_dir]/${f}.rem" >>~/.config/remind/reminders.rem
+# done
 
 # a few ideas for the list of files:
 # - an individual file for myself
