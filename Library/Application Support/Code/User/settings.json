@@ -155,5 +155,18 @@
   },
   "[typst-code]": {
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  },
+  "sonarlint.connectedMode.connections.sonarqube": [
+    {
+      "serverUrl": "https://sonarqube.io.pge.com",
+      "connectionId": "https-sonarqube-io-pge-com-"
+    }
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "git.blame.editorDecoration.enabled": true,
+  "[astro]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
 }
