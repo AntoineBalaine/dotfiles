@@ -82,3 +82,5 @@ vim.keymap.set("n", "<C-Up>", "<C-w><Up>", { desc = "Move to window above" })
 vim.keymap.set("n", "<C-Down>", "<C-w><Down>", { desc = "Move to window below" })
 vim.keymap.set("n", "<C-Left>", "<C-w><Left>", { desc = "Move to window left" })
 vim.keymap.set("n", "<C-Right>", "<C-w><Right>", { desc = "Move to window right" })
+
+vim.keymap.set("n", "<C-x>", ":bd<CR>", { desc = "close buffer" })
