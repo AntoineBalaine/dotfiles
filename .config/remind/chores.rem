@@ -1,0 +1,6 @@
+SET ac_filter date(2025, 7, 9)
+REM [ac_filter + 30] MSG replace AC filter
+
+REM jul 13 2025 AT 14:00 DURATION 3:00 MSG Jungle Jim’s 
+REM jul 14 2025 AT 09:00 DURATION 1:00 MSG backup Arch laptop
+REM jul 15 2025 AT 09:00 DURATION 1:00 MSG arch extend boot partition
