@@ -84,3 +84,4 @@ vim.keymap.set("n", "<C-Left>", "<C-w><Left>", { desc = "Move to window left" })
 vim.keymap.set("n", "<C-Right>", "<C-w><Right>", { desc = "Move to window right" })
 
 vim.keymap.set("n", "<C-x>", ":bd<CR>", { desc = "close buffer" })
+vim.keymap.set("n", "<leader>bc", ":close<CR>", { desc = "close buffer" })
