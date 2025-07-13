@@ -75,4 +75,13 @@ eval "$(zoxide init zsh)"
 
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/lib/ruby/gems/3.3.0/bin:$PATH"
+
+# https://github.com/gokcehan/lf/blob/master/etc/lfcd.sh
+lf() {
+  # `command` is needed in case `lfcd` is aliased to `lf`
+  cd "$(command lf -print-last-dir "$@")" || exit
+}
+bindkey -s '^o' 'lf\n'  # zsh
+
+
 rem -q

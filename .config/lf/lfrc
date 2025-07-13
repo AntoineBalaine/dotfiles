@@ -1,0 +1,79 @@
+set number true
+set relativenumber true
+set hidden true
+set icons true
+
+cmd bulk-rename ${{
+    old="$(mktemp)"
+    new="$(mktemp)"
+    if [ -n "$fs" ]; then
+        fs="$(basename -a -- $fs)"
+    else
+        fs="$(ls)"
+    fi
+    printf '%s\n' "$fs" > "$old"
+    printf '%s\n' "$fs" > "$new"
+    $EDITOR "$new"
+    [ "$(wc -l < "$new")" -ne "$(wc -l < "$old")" ] && exit
+    paste "$old" "$new" | while IFS= read -r names; do
+        src="$(printf '%s' "$names" | cut -f1)"
+        dst="$(printf '%s' "$names" | cut -f2)"
+        if [ "$src" = "$dst" ] || [ -e "$dst" ]; then
+            continue
+        fi
+        mv -- "$src" "$dst"
+    done
+    rm -- "$old" "$new"
+    lf -remote "send $id unselect"
+}}
+
+map R bulk-rename
+
+
+# unmap the default rename keybinding
+# map r
+
+map i :rename; cmd-home
+map a :rename;
+map A :rename; cmd-end
+map c :rename; cmd-delete-home
+map C :rename; cmd-end; cmd-delete-home
+
+# Press . to repeat the last command
+map . :read; cmd-history-prev; cmd-enter
+
+
+cmd yank-paths ${{
+    if [ "$(uname -s)" = Darwin ]; then
+        lf -remote "send $id \$printf '%s' \"\$fx\" | pbcopy"
+    else
+        lf -remote "send $id \$printf '%s' \"\$fx\" | xclip -selection clipboard"
+    fi
+}}
+
+cmd yank-dirname ${{
+    if [ "$(uname -s)" = Darwin ]; then
+        lf -remote "send $id \$printf '%s' \"\$PWD\" | pbcopy"
+    else
+        lf -remote "send $id \$printf '%s' \"\$PWD\" | xclip -selection clipboard"
+    fi
+}}
+
+cmd yank-basename ${{
+    if [ "$(uname -s)" = Darwin ]; then
+        lf -remote "send $id \$basename -a -- \$fx | head -c-1 | pbcopy"
+    else
+        lf -remote "send $id \$basename -a -- \$fx | head -c-1 | xclip -selection clipboard"
+    fi
+}}
+
+cmd yank-basename-without-extension ${{
+    if [ "$(uname -s)" = Darwin ]; then
+        lf -remote "send $id &basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | pbcopy"
+    else
+        lf -remote "send $id &basename -a -- $fx | sed -E 's/\.[^.]+$//' | head -c-1 | xclip -selection clipboard"
+    fi
+}}
+
+
+
