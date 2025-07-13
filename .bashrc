@@ -28,5 +28,14 @@ alias transfermarket="bash $HOME/Documents/Ryerson/transfermarket.sh"
 # pnpm
 export PNPM_HOME="$HOME/Library/pnpm"
 export PATH="$PNPM_HOME:$PATH"
+eval "$(zoxide init bash)"
 # pnpm end
+
+# https://github.com/gokcehan/lf/blob/master/etc/lfcd.sh
+lf() {
+  # `command` is needed in case `lfcd` is aliased to `lf`
+  cd "$(command lf -print-last-dir "$@")" || exit
+}
+bind '"\C-o":"lf\C-m"' # bash
+
 rem -q
