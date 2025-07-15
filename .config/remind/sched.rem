@@ -26,24 +26,17 @@ SET bastille_day date(2025, 07, 13)
 REM [bastille_day] AT 19:00 DURATION 3:00 MSG Bastille day
 REM [bastille_day - 5] MSG send bastille day invitations
 
+
 REM jul 10 2025 AT 09:00 DURATION 1:00 MSG Prcts LFBB
 REM jul 10 2025 AT 22:00 DURATION 1:30 MSG ABC coding*
 REM jul 11 2025 AT 09:00 DURATION 1:00 MSG recherche sorties
 REM jul 11 2025 AT 16:00 DURATION 2:00 MSG ABC coding
 REM jul 11 2025 AT 19:00 DURATION 3:00 MSG CINÉ colombiens
 REM jul 12 2025 AT 09:00 DURATION 1:00 MSG Prcts LFBB
-REM jul 13 AT 12:00 DURATION 1:00 MSG Artisanat fountain square
+REM jul 13 2025 AT 12:00 DURATION 1:00 MSG Artisanat fountain square
 REM jul 13 2025 AT 13:00 DURATION 1:00 MSG Prcts LFBB
-REM jul 14 AT 17:00 DURATION 2:00 MSG Prcts LFBB church
-REM jul 17 AT 17:00 DURATION 2:00 MSG Prcts LFBB church
-REM jul 20 2025 AT 13:00 DURATION 2:00 MSG Prcts LFBB
-REM jul 20 2025 AT 16:00 DURATION 2:00 MSG Répète LFBB
 
-REM jul 24 2025 AT 19:00 MSG LF3 fountain square
 REM jul 27 2025 MSG salsannati session2 signup
 
-REM sep 4 2025 At 19:00 MSG LFBigBand fntn sq
-REM sep 9 2025 At 19:00 MSG LFBigBand fntn sq
 REM sep 10 2025 At 09:00 DURATION 1:00 MSG dentiste
-REM sep 13 2025 At 17:30 DURATION 1:30 MSG LFBigBand Clifton Fest
 

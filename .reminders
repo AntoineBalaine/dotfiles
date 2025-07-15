@@ -23,12 +23,14 @@ FSET fileprefix() upper( \
   )
 FSET msgprefix(x) fileprefix() + ": "
 
-INCLUDE [remind_dir]/sched.rem
-INCLUDE [remind_dir]/birthdays.rem
-INCLUDE [remind_dir]/vacation.rem
-INCLUDE [remind_dir]/finances.rem
 INCLUDE [remind_dir]/administratif.rem
-INCLUDE [remind_dir]/usholidays.rem
+INCLUDE [remind_dir]/birthdays.rem
 INCLUDE [remind_dir]/chores.rem
+INCLUDE [remind_dir]/finances.rem
+INCLUDE [remind_dir]/music.rem
+INCLUDE [remind_dir]/sched.rem
+INCLUDE [remind_dir]/usholidays.rem
+INCLUDE [remind_dir]/vacation.rem
+
 
 
