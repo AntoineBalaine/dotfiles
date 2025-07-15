@@ -1,7 +1,7 @@
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
 alias lg="lazygit"
-alias cpwd="pwd | pbcopy"
+alias cpwd="pwd | xclip -selection clipboard"
 alias commonlib="cd $HOME/Documents/Ryerson/web-components-common-ui/application"
 alias market="cd $HOME/Documents/Ryerson/web-marketing-ui/application"
 alias store="cd $HOME/Documents/Ryerson/web-store-ui/application"
