@@ -19,7 +19,7 @@ alias lazyconfig='lazygit --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias plover="/Applications/Plover.app/Contents/MacOS/Plover"
 export PATH=$HOME/bin:$PATH
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion" # This loads nvm bash_completion
-. "$HOME/.cargo/env"
+# . "$HOME/.cargo/env"
 export VISUAL=nvim
 export EDITOR=nvim
 alias transfer="bash $HOME/Documents/Ryerson/transfer.sh"
@@ -38,4 +38,4 @@ lf() {
 }
 bind '"\C-o":"lf\C-m"' # bash
 
-rem -q
+# rem -q
