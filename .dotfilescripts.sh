@@ -16,6 +16,7 @@ if [ "$1" == "savefiles" ]; then
     /usr/bin/git --git-dir="$HOME"/.cfg/ --work-tree="$HOME" "$@"
   }
   config config --local status.showUntrackedFiles no;
+  config config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*';
   echo "alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'" >> "$HOME"/.bashrc;
 
   function lazyconfig {
