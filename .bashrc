@@ -38,4 +38,14 @@ lf() {
 }
 bind '"\C-o":"lf\C-m"' # bash
 
+export FZF_DEFAULT_COMMAND="rg --files"
+export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --multi --preview \"bat --color=always {}\""
+
+alias rgf="rg --color=always --line-number --no-heading --smart-case \"${*:-}\" | \
+  fzf --ansi \
+      --color "hl:-1:underline,hl+:-1:underline:reverse" \
+      --delimiter : \
+      --preview 'bat --color=always {1} --highlight-line {2}' \
+      --bind 'enter:become(nvim {1} +{2})'"
+
 rem -q
