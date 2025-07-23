@@ -82,6 +82,6 @@ lf() {
   cd "$(command lf -print-last-dir "$@")" || exit
 }
 bindkey -s '^o' 'lf\n'  # zsh
-
+source .env
 
 rem -q
